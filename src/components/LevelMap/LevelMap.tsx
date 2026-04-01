@@ -27,13 +27,16 @@ const LevelMap = () => {
     useGameStore();
   const [greeting] = useState(() => getPhrase("greeting"));
 
-  // Show greeting toast on mount
+  // Show greeting toast + audio on mount
   useEffect(() => {
     toast(greeting, { duration: 3000 });
-  }, [greeting]);
+    playPhraseAudio(greeting, isMuted);
+  }, [greeting, isMuted]);
 
   const handleLockedClick = () => {
-    toast(getPhrase("lockedLevel"), { duration: 2500 });
+    const phrase = getPhrase("lockedLevel");
+    toast(phrase, { duration: 2500 });
+    playPhraseAudio(phrase, isMuted);
   };
 
   return (
