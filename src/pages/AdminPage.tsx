@@ -152,6 +152,8 @@ const AdminPage = () => {
             audioMap={audioMap}
             onAudioMapChange={setAudioMap}
             onAudioSave={handleAudioSave}
+            phonetics={phonetics}
+            onPhoneticsChange={setPhonetics}
           />
         </TabsContent>
 
