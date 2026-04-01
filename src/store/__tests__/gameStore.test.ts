@@ -61,7 +61,8 @@ describe("gameStore", () => {
     expect(useGameStore.getState().isLevelUnlocked(2)).toBe(true);
   });
 
-  it("does NOT unlock next level with insufficient stars", () => {
+  it("does NOT unlock next level with insufficient stars (when debug off)", () => {
+    if (DEBUG.UNLOCK_ALL_LEVELS) return; // skip when debug flag is on
     useGameStore.getState().completeWord(1, "سلام", 3, 90);
     useGameStore.getState().completeWord(1, "ممنون", 3, 90);
     // 6 stars < 12
