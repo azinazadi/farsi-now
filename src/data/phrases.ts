@@ -1,7 +1,8 @@
+import { exactPhraseAudioMap } from "./phraseAudioManifest";
+
 /** Random encouraging Farsi phrases for every interaction, with audio */
 
 const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
-
 /** Map phrase text (without emoji) → audio hash filename */
 const audioMap: Record<string, string> = {
   "بمب بود": "01005e961897",
