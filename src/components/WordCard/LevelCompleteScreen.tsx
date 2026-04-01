@@ -6,6 +6,8 @@ import Mascot from "@/components/Mascot/Mascot";
 import Confetti from "@/components/UI/Confetti";
 import { Home } from "lucide-react";
 import { LevelData } from "@/types";
+import { getPhrase } from "@/data/phrases";
+import { useState } from "react";
 
 interface LevelCompleteScreenProps {
   level: LevelData;
