@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { levels } from "@/data/levels";
 import { useGameStore } from "@/store/gameStore";
-import { getPhrase } from "@/data/phrases";
+import { getPhrase, playPhraseAudio } from "@/data/phrases";
 import StarsDisplay from "@/components/UI/StarsDisplay";
 import XPBar from "@/components/UI/XPBar";
 import Mascot from "@/components/Mascot/Mascot";
