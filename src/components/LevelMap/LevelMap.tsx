@@ -1,11 +1,14 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { levels } from "@/data/levels";
 import { useGameStore } from "@/store/gameStore";
+import { getPhrase } from "@/data/phrases";
 import StarsDisplay from "@/components/UI/StarsDisplay";
 import XPBar from "@/components/UI/XPBar";
 import Mascot from "@/components/Mascot/Mascot";
 import { Lock, Volume2, VolumeX } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const LEVEL_COLORS = [
   "bg-game-pink",
@@ -22,9 +25,31 @@ const LevelMap = () => {
   const navigate = useNavigate();
   const { xp, streak, isMuted, toggleMute, isLevelUnlocked, getLevelStars } =
     useGameStore();
+  const [greeting] = useState(() => getPhrase("greeting"));
+
+  // Show greeting toast on mount
+  useEffect(() => {
+    toast(greeting, { duration: 3000 });
+  }, [greeting]);
+
+  const handleLockedClick = () => {
+    toast(getPhrase("lockedLevel"), { duration: 2500 });
+  };
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8 flex flex-col items-center">
+      {/* Greeting banner */}
+      <AnimatePresence>
+        <motion.div
+          className="w-full max-w-lg mb-4 text-center"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <p className="text-lg font-farsi text-foreground font-bold">{greeting}</p>
+        </motion.div>
+      </AnimatePresence>
+
       {/* Header */}
       <div className="w-full max-w-lg flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -64,12 +89,12 @@ const LevelMap = () => {
               key={level.id}
               className={`relative rounded-2xl p-5 shadow-lg flex flex-col items-center gap-2 min-h-[140px] transition-all ${
                 unlocked
-                  ? `${LEVEL_COLORS[i]} cursor-pointer`
+                  ? `${LEVEL_COLORS[i % LEVEL_COLORS.length]} cursor-pointer`
                   : "bg-muted cursor-not-allowed opacity-60"
               }`}
               whileHover={unlocked ? { scale: 1.05, y: -4 } : {}}
               whileTap={unlocked ? { scale: 0.95 } : {}}
-              onClick={() => unlocked && navigate(`/level/${level.id}`)}
+              onClick={() => unlocked ? navigate(`/level/${level.id}`) : handleLockedClick()}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}

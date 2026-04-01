@@ -62,6 +62,9 @@ const WordCard = () => {
       setLastStars(stars);
       setShowResult(true);
 
+      // Show phrase toast
+      toast(getScorePhrase(stars), { duration: 3000 });
+
       if (stars >= 1) {
         completeWord(level.id, word.word, stars, overlap);
         if (stars === 3) {

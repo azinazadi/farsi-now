@@ -17,12 +17,13 @@ interface LevelCompleteScreenProps {
 const LevelCompleteScreen = ({ level, showConfetti }: LevelCompleteScreenProps) => {
   const navigate = useNavigate();
   const totalStars = useGameStore.getState().getLevelStars(level.id);
+  const [phrase] = useState(() => getPhrase("levelComplete"));
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4 gap-6">
       <Confetti show={showConfetti} />
       <Mascot mood="cheering" size={80} />
-      <h2 className="text-3xl font-bold font-farsi text-foreground">آفرین! 🎉</h2>
+      <h2 className="text-3xl font-bold font-farsi text-foreground">{phrase}</h2>
       <p className="text-xl font-farsi text-muted-foreground">
         {level.titleFa} تموم شد!
       </p>

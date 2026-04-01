@@ -14,7 +14,7 @@ const createInitialLevels = (): Record<number, LevelProgress> => {
       words[w.word] = { stars: 0, attempts: 0, bestOverlap: 0, completed: false };
     });
     result[level.id] = {
-      unlocked: i === 0,
+      unlocked: i === 0 || DEBUG.UNLOCK_ALL_LEVELS,
       words,
       totalStars: 0,
     };
