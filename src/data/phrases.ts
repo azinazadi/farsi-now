@@ -479,7 +479,7 @@ export const getPhraseAudioSequenceUrls = (phrase: string): string[] => {
   const target = sanitizePhraseForSpeech(phrase);
   if (!target || !hasPersianLetters(target)) return [];
 
-  const matchedSegments: Array<{ text: string; url: string }> = [];
+  const matchedSegments: Array<{ searchText: string; url: string }> = [];
   let matchedChars = 0;
   let cursor = 0;
 
@@ -487,7 +487,7 @@ export const getPhraseAudioSequenceUrls = (phrase: string): string[] => {
     while (target[cursor] === " ") cursor += 1;
     if (cursor >= target.length) break;
 
-    let bestMatch: { text: string; url: string } | null = null;
+    let bestMatch: { searchText: string; url: string } | null = null;
     let bestIndex = -1;
 
     for (const entry of exactPhraseAudioEntries) {
