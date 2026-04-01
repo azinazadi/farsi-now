@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { GameState, LevelProgress, WordProgress } from "@/types";
 import { levels } from "@/data/levels";
 import { loadProgress, saveProgress } from "@/services/progress";
+import { DEBUG } from "@/config/debug";
 
 const STARS_TO_UNLOCK = 12; // stars needed from prev level to unlock next
 
