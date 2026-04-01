@@ -4,20 +4,11 @@ import {
   getPhrase,
   getScorePhrase,
   getPhraseAudioUrl,
-  getPhraseAudioSequenceUrls,
+  getPhraseAudioId,
+  stripEmoji,
 } from "../phrases";
 import * as fs from "fs";
 import * as path from "path";
-
-/**
- * Strip emoji using the same logic as phrases.ts
- * Keep in sync with stripEmoji in phrases.ts
- */
-const stripEmoji = (text: string): string =>
-  text.replace(
-    /[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FEFF}]|[\u200D\uFE0F]|[😊😍😂😈😜😋🤗⚡🌟🌸🚀🐥🐶💪🎉🔥👏🛡️🌠📱☕🗝️🔑💃🍰🧠🖼️😎🦇😳💣👍😏❤️🚨🎬👀]/gu,
-    ""
-  ).trim();
 
 describe("Phrase audio mapping", () => {
   const allCategories = Object.keys(phrases) as (keyof typeof phrases)[];
@@ -52,22 +43,6 @@ describe("Phrase audio mapping", () => {
     }
   });
 
-  it("stitches a long phrase from multiple exact audio clips", () => {
-    expect(getPhraseAudioUrl("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️")).toBeNull();
-    expect(getPhraseAudioSequenceUrls("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️")).toEqual([
-      "/assets/audio/phrases/a3f5bdccd3bd.mp3",
-      "/assets/audio/phrases/2af08e0d6cd5.mp3",
-    ]);
-  });
-
-  it("stripEmoji removes all emoji from phrases", () => {
-    for (const { phrase } of allPhrases) {
-      const clean = stripEmoji(phrase);
-      // Should not contain common emoji characters
-      expect(clean).not.toMatch(/[😄😍😎😂😏❤️🔥😳😜🧠🎬🚨🌸👀😏]/);
-    }
-  });
-
   it("no duplicate phrases within the same category", () => {
     for (const cat of allCategories) {
       const seen = new Set<string>();
@@ -79,38 +54,68 @@ describe("Phrase audio mapping", () => {
   });
 });
 
-describe("Phrase audio files exist on disk", () => {
-  // Read the audioMap from the source file to verify file existence
-  const phrasesSource = fs.readFileSync(
-    path.resolve(__dirname, "../phrases.ts"),
-    "utf-8"
+describe("100% phrase audio coverage", () => {
+  const allCategories = Object.keys(phrases) as (keyof typeof phrases)[];
+  const audioDir = path.resolve(
+    __dirname,
+    "../../../public/assets/audio/phrases"
   );
 
-  // Extract all hash values from audioMap
-  const hashMatches = phrasesSource.matchAll(/"([a-f0-9]{12})"/g);
-  const hashes = new Set<string>();
-  for (const match of hashMatches) {
-    hashes.add(match[1]);
-  }
-
-  it("audioMap has entries", () => {
-    expect(hashes.size).toBeGreaterThan(0);
-  });
-
-  it("every audioMap hash has a corresponding mp3 file", () => {
-    const audioDir = path.resolve(__dirname, "../../../public/assets/audio/phrases");
+  it("EVERY phrase resolves to a numeric audio ID", () => {
     const missing: string[] = [];
-    for (const hash of hashes) {
-      const filePath = path.join(audioDir, `${hash}.mp3`);
-      if (!fs.existsSync(filePath)) {
-        missing.push(hash);
+    for (const cat of allCategories) {
+      for (const phrase of phrases[cat]) {
+        const id = getPhraseAudioId(phrase);
+        if (id === null) {
+          missing.push(`[${cat}] ${stripEmoji(phrase)}`);
+        }
       }
     }
     expect(missing).toEqual([]);
   });
 
-  it("avoids unsafe tiny partial matches for long phrases", () => {
-    expect(getPhraseAudioUrl("به به! اومدی بالاخره، صفا آوردی به دلمون ❤️")).toBeNull();
-    expect(getPhraseAudioSequenceUrls("به به! اومدی بالاخره، صفا آوردی به دلمون ❤️")).toEqual([]);
+  it("EVERY phrase has a corresponding MP3 file on disk", () => {
+    const missing: string[] = [];
+    for (const cat of allCategories) {
+      for (const phrase of phrases[cat]) {
+        const id = getPhraseAudioId(phrase);
+        if (id === null) {
+          missing.push(`[${cat}] NO ID: ${stripEmoji(phrase)}`);
+          continue;
+        }
+        const filePath = path.join(audioDir, `${id}.mp3`);
+        if (!fs.existsSync(filePath)) {
+          missing.push(`[${cat}] NO FILE: ${id}.mp3`);
+        }
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+
+  it("getPhraseAudioUrl returns a valid path for every phrase", () => {
+    const missing: string[] = [];
+    for (const cat of allCategories) {
+      for (const phrase of phrases[cat]) {
+        const url = getPhraseAudioUrl(phrase);
+        if (!url) {
+          missing.push(`[${cat}] ${stripEmoji(phrase)}`);
+        }
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+
+  it("total phrase count matches manifest count", () => {
+    const uniquePhrases = new Set<string>();
+    for (const cat of allCategories) {
+      for (const phrase of phrases[cat]) {
+        uniquePhrases.add(stripEmoji(phrase).replace(/\s+/g, " ").trim());
+      }
+    }
+    // Every unique phrase must be in the manifest
+    const { phraseAudioMap } = require("../phraseAudioManifest");
+    for (const clean of uniquePhrases) {
+      expect(phraseAudioMap).toHaveProperty(clean);
+    }
   });
 });
