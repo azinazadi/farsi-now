@@ -1,0 +1,148 @@
+import { LevelData } from "@/types";
+
+export const levels: LevelData[] = [
+  {
+    id: 1,
+    title: "Greetings",
+    titleFa: "سلام و احوال‌پرسی",
+    theme: "greetings",
+    color: "game-pink",
+    words: [
+      { word: "سلام", english: "hello", transliteration: "salaam" },
+      { word: "ممنون", english: "thank you", transliteration: "mamnun" },
+      { word: "خوبی", english: "how are you", transliteration: "khubi" },
+      { word: "بیا", english: "come", transliteration: "biya" },
+      { word: "برو", english: "go", transliteration: "boro" },
+      { word: "آره", english: "yes", transliteration: "aareh" },
+      { word: "نه", english: "no", transliteration: "na" },
+      { word: "باشه", english: "okay", transliteration: "baasheh" },
+    ],
+  },
+  {
+    id: 2,
+    title: "Family",
+    titleFa: "خانواده",
+    theme: "family",
+    color: "game-orange",
+    words: [
+      { word: "مامان", english: "mom", transliteration: "maaman" },
+      { word: "بابا", english: "dad", transliteration: "baabaa" },
+      { word: "داداش", english: "brother", transliteration: "daadaash" },
+      { word: "آبجی", english: "sister", transliteration: "aabji" },
+      { word: "ننه", english: "grandma", transliteration: "naneh" },
+      { word: "بابابزرگ", english: "grandpa", transliteration: "baababozorg" },
+      { word: "عمه", english: "aunt", transliteration: "ammeh" },
+      { word: "دایی", english: "uncle", transliteration: "daayi" },
+    ],
+  },
+  {
+    id: 3,
+    title: "Animals",
+    titleFa: "حیوونا",
+    theme: "animals",
+    color: "game-green",
+    words: [
+      { word: "گربه", english: "cat", transliteration: "gorbeh" },
+      { word: "سگ", english: "dog", transliteration: "sag" },
+      { word: "مرغ", english: "chicken", transliteration: "morgh" },
+      { word: "اسب", english: "horse", transliteration: "asb" },
+      { word: "ماهی", english: "fish", transliteration: "maahi" },
+      { word: "خرگوش", english: "rabbit", transliteration: "khargoosh" },
+      { word: "موش", english: "mouse", transliteration: "moosh" },
+      { word: "خرس", english: "bear", transliteration: "khers" },
+    ],
+  },
+  {
+    id: 4,
+    title: "Nature",
+    titleFa: "طبیعت",
+    theme: "nature",
+    color: "game-teal",
+    words: [
+      { word: "آب", english: "water", transliteration: "aab" },
+      { word: "درخت", english: "tree", transliteration: "derakht" },
+      { word: "گل", english: "flower", transliteration: "gol" },
+      { word: "خاک", english: "soil", transliteration: "khaak" },
+      { word: "آفتاب", english: "sun", transliteration: "aaftaab" },
+      { word: "ابر", english: "cloud", transliteration: "abr" },
+      { word: "بارون", english: "rain", transliteration: "baaroon" },
+      { word: "سنگ", english: "stone", transliteration: "sang" },
+    ],
+  },
+  {
+    id: 5,
+    title: "Food",
+    titleFa: "خوراکی",
+    theme: "food",
+    color: "game-yellow",
+    words: [
+      { word: "نون", english: "bread", transliteration: "noon" },
+      { word: "شیر", english: "milk", transliteration: "shir" },
+      { word: "برنج", english: "rice", transliteration: "berenj" },
+      { word: "چایی", english: "tea", transliteration: "chaayi" },
+      { word: "تخم‌مرغ", english: "egg", transliteration: "tokhm-morgh" },
+      { word: "پنیر", english: "cheese", transliteration: "panir" },
+      { word: "سیب", english: "apple", transliteration: "sib" },
+      { word: "موز", english: "banana", transliteration: "moz" },
+    ],
+  },
+  {
+    id: 6,
+    title: "Colors",
+    titleFa: "رنگا",
+    theme: "colors",
+    color: "game-blue",
+    words: [
+      { word: "قرمز", english: "red", transliteration: "ghermez" },
+      { word: "آبی", english: "blue", transliteration: "aabi" },
+      { word: "زرد", english: "yellow", transliteration: "zard" },
+      { word: "سبز", english: "green", transliteration: "sabz" },
+      { word: "سفید", english: "white", transliteration: "sefid" },
+      { word: "مشکی", english: "black", transliteration: "meshki" },
+      { word: "صورتی", english: "pink", transliteration: "surati" },
+      { word: "نارنجی", english: "orange", transliteration: "naarenji" },
+    ],
+  },
+  {
+    id: 7,
+    title: "Body Parts",
+    titleFa: "اعضای بدن",
+    theme: "body",
+    color: "game-purple",
+    words: [
+      { word: "چشم", english: "eye", transliteration: "cheshm" },
+      { word: "دست", english: "hand", transliteration: "dast" },
+      { word: "پا", english: "foot", transliteration: "paa" },
+      { word: "دهن", english: "mouth", transliteration: "dahan" },
+      { word: "گوش", english: "ear", transliteration: "goosh" },
+      { word: "بینی", english: "nose", transliteration: "bini" },
+      { word: "سر", english: "head", transliteration: "sar" },
+      { word: "شکم", english: "stomach", transliteration: "shekam" },
+    ],
+  },
+  {
+    id: 8,
+    title: "Numbers",
+    titleFa: "اعداد",
+    theme: "numbers",
+    color: "game-red",
+    words: [
+      { word: "یه", english: "one", transliteration: "ye" },
+      { word: "دو", english: "two", transliteration: "do" },
+      { word: "سه", english: "three", transliteration: "seh" },
+      { word: "چار", english: "four", transliteration: "chaar" },
+      { word: "پنج", english: "five", transliteration: "panj" },
+      { word: "شش", english: "six", transliteration: "shesh" },
+      { word: "هفت", english: "seven", transliteration: "haft" },
+      { word: "هشت", english: "eight", transliteration: "hasht" },
+    ],
+  },
+];
+
+export const getLevelById = (id: number): LevelData | undefined =>
+  levels.find((l) => l.id === id);
+
+export const getWordByIndex = (levelId: number, wordIndex: number) => {
+  const level = getLevelById(levelId);
+  return level?.words[wordIndex];
+};
