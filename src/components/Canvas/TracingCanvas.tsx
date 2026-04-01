@@ -17,7 +17,13 @@ const TracingCanvas = ({ word, onScore }: TracingCanvasProps) => {
   const ghostCanvasRef = useRef<HTMLCanvasElement>(null);
   const { strokes, startDrawing, draw, stopDrawing, clearCanvas } = useDrawing(drawCanvasRef);
   const { calculateOverlap, getStars } = useScoring();
-  const [ghostReady, setGhostReady] = useState(false);
+  const [canvasKey, setCanvasKey] = useState(0);
+
+  // Reset canvas when word changes
+  useEffect(() => {
+    clearCanvas();
+    setCanvasKey((k) => k + 1);
+  }, [word, clearCanvas]);
 
   // Draw ghost word
   useEffect(() => {
@@ -28,7 +34,6 @@ const TracingCanvas = ({ word, onScore }: TracingCanvasProps) => {
 
     ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
 
-    // Wait for font to load
     document.fonts.ready.then(() => {
       ctx.font = "bold 80px Vazirmatn";
       ctx.fillStyle = "rgba(180, 160, 200, 0.35)";
@@ -36,9 +41,8 @@ const TracingCanvas = ({ word, onScore }: TracingCanvasProps) => {
       ctx.textBaseline = "middle";
       ctx.direction = "rtl";
       ctx.fillText(word, CANVAS_W / 2, CANVAS_H / 2);
-      setGhostReady(true);
     });
-  }, [word]);
+  }, [word, canvasKey]);
 
   const handleCheck = useCallback(() => {
     if (!drawCanvasRef.current || !ghostCanvasRef.current) return;

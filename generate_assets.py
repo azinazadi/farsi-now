@@ -3,7 +3,7 @@
 Asset generator for Farsi Handwriting Learning App.
 
 Prerequisites:
-  pip install gtts requests
+  pip install edge-tts
 
 Usage:
   python generate_assets.py
@@ -12,16 +12,18 @@ For image generation, set STABILITY_API_KEY or REPLICATE_API_TOKEN env var.
 Without an image API key, only audio files will be generated.
 """
 
+import asyncio
 import os
 import sys
 
 try:
-    from gtts import gTTS
+    import edge_tts
 except ImportError:
-    print("Please install gTTS: pip install gtts")
+    print("Please install edge-tts: pip install edge-tts")
     sys.exit(1)
 
 BASE = os.path.join(os.path.dirname(__file__), "public", "assets")
+VOICE = "fa-IR-DilaraNeural"
 
 WORDS = {
     "سلام": "hello greeting",
@@ -93,40 +95,53 @@ WORDS = {
 LETTERS = list("ابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی") + ["آ"]
 
 
-def generate_audio():
-    """Generate word and letter audio using gTTS."""
+async def generate_one(text, path):
+    """Generate a single audio file."""
+    try:
+        comm = edge_tts.Communicate(text, VOICE)
+        await comm.save(path)
+        return True
+    except Exception as e:
+        print(f"  ✗ {text} - {e}")
+        return False
+
+
+async def generate_audio():
+    """Generate word and letter audio using Microsoft Edge TTS (Farsi)."""
     audio_dir = os.path.join(BASE, "audio")
     letters_dir = os.path.join(audio_dir, "letters")
     os.makedirs(audio_dir, exist_ok=True)
     os.makedirs(letters_dir, exist_ok=True)
 
-    word_count = 0
+    # Generate word audio
+    tasks = []
+    words_to_gen = []
     for word in WORDS:
         path = os.path.join(audio_dir, f"{word}.mp3")
-        if os.path.exists(path):
-            word_count += 1
+        if os.path.exists(path) and os.path.getsize(path) > 2000:
             continue
-        try:
-            tts = gTTS(word, lang="fa")
-            tts.save(path)
-            word_count += 1
-            print(f"  ✓ audio: {word}")
-        except Exception as e:
-            print(f"  ✗ audio: {word} - {e}")
+        words_to_gen.append(word)
+        tasks.append(generate_one(word, path))
 
-    letter_count = 0
+    if tasks:
+        results = await asyncio.gather(*tasks)
+        print(f"  Generated {sum(results)}/{len(tasks)} word audio files")
+    
+    word_count = sum(1 for w in WORDS if os.path.exists(os.path.join(audio_dir, f"{w}.mp3")))
+
+    # Generate letter audio
+    tasks2 = []
     for letter in LETTERS:
         path = os.path.join(letters_dir, f"{letter}.mp3")
-        if os.path.exists(path):
-            letter_count += 1
+        if os.path.exists(path) and os.path.getsize(path) > 2000:
             continue
-        try:
-            tts = gTTS(letter, lang="fa")
-            tts.save(path)
-            letter_count += 1
-            print(f"  ✓ letter audio: {letter}")
-        except Exception as e:
-            print(f"  ✗ letter audio: {letter} - {e}")
+        tasks2.append(generate_one(letter, path))
+
+    if tasks2:
+        results2 = await asyncio.gather(*tasks2)
+        print(f"  Generated {sum(results2)}/{len(tasks2)} letter audio files")
+
+    letter_count = sum(1 for l in LETTERS if os.path.exists(os.path.join(letters_dir, f"{l}.mp3")))
 
     print(f"\nWord audio: {word_count}/{len(WORDS)}")
     print(f"Letter audio: {letter_count}/{len(LETTERS)}")
@@ -154,7 +169,6 @@ def generate_images():
             "pastel colors, white background, thick outlines, "
             "for children age 6-12, flat design"
         )
-        # Add your preferred image API call here
         print(f"  ⏳ Would generate: {word} ({english})")
         img_count += 1
 
@@ -183,6 +197,6 @@ def summary():
 
 if __name__ == "__main__":
     print("🎨 Generating assets for Farsi Handwriting App\n")
-    generate_audio()
+    asyncio.run(generate_audio())
     generate_images()
     summary()

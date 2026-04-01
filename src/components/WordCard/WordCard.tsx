@@ -9,8 +9,11 @@ import LetterBreakdown from "@/components/LetterBreakdown/LetterBreakdown";
 import StarsDisplay from "@/components/UI/StarsDisplay";
 import Mascot from "@/components/Mascot/Mascot";
 import Confetti from "@/components/UI/Confetti";
+import WordHeader from "@/components/WordCard/WordHeader";
+import WordDisplay from "@/components/WordCard/WordDisplay";
+import LevelCompleteScreen from "@/components/WordCard/LevelCompleteScreen";
 import { MascotMood } from "@/types";
-import { ArrowRight, Home, Volume2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const WordCard = () => {
   const { levelId } = useParams<{ levelId: string }>();
@@ -72,7 +75,6 @@ const WordCard = () => {
         const newAttempts = attempts + 1;
         setAttempts(newAttempts);
         if (newAttempts >= 3) {
-          // Auto-advance with 0 stars
           completeWord(level.id, word.word, 0, overlap);
           setMascotMood("sad");
           playSound("fail");
@@ -108,27 +110,11 @@ const WordCard = () => {
   }
 
   if (levelComplete) {
-    const totalStars = useGameStore.getState().getLevelStars(level.id);
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4 gap-6">
-        <Confetti show={showConfetti} />
-        <Mascot mood="cheering" size={80} />
-        <h2 className="text-3xl font-bold font-farsi text-foreground">آفرین! 🎉</h2>
-        <p className="text-xl font-farsi text-muted-foreground">
-          {level.titleFa} تموم شد!
-        </p>
-        <StarsDisplay stars={Math.min(3, Math.floor(totalStars / 8))} size={48} animated />
-        <p className="text-lg font-farsi text-foreground">{totalStars} ⭐ جمع کردی</p>
-        <motion.button
-          className="game-bubble-btn bg-primary text-primary-foreground mt-4"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate("/")}
-        >
-          <Home size={20} className="inline ml-2" />
-          برگرد به نقشه
-        </motion.button>
-      </div>
+      <LevelCompleteScreen
+        level={level}
+        showConfetti={showConfetti}
+      />
     );
   }
 
@@ -136,26 +122,14 @@ const WordCard = () => {
     <div className="min-h-screen bg-background p-4 md:p-8 flex flex-col items-center">
       <Confetti show={showConfetti} />
 
-      {/* Header */}
-      <div className="w-full max-w-lg flex items-center justify-between mb-4">
-        <motion.button
-          className="p-2 rounded-xl bg-card shadow-md"
-          whileTap={{ scale: 0.9 }}
-          onClick={() => navigate("/")}
-        >
-          <Home size={24} />
-        </motion.button>
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground font-farsi">{level.titleFa}</p>
-          <p className="text-xs text-muted-foreground ltr">
-            {currentWordIndex + 1} / {level.words.length}
-          </p>
-        </div>
-        <Mascot mood={mascotMood} size={40} />
-      </div>
+      <WordHeader
+        level={level}
+        currentWordIndex={currentWordIndex}
+        mascotMood={mascotMood}
+      />
 
       {/* Progress dots */}
-      <div className="flex gap-1.5 mb-6 ltr">
+      <div className="flex gap-1.5 mb-6" dir="ltr">
         {level.words.map((_, i) => (
           <div
             key={i}
@@ -170,27 +144,7 @@ const WordCard = () => {
         ))}
       </div>
 
-      {/* Word display */}
-      <motion.div
-        key={word.word}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center mb-4"
-      >
-        <div className="flex items-center justify-center gap-3 mb-2">
-          <h2 className="text-4xl md:text-5xl font-bold font-farsi text-foreground">
-            {word.word}
-          </h2>
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => playWordAudio(word.word)}
-            className="p-2 rounded-full bg-card shadow-md"
-          >
-            <Volume2 size={20} />
-          </motion.button>
-        </div>
-        <p className="text-sm text-muted-foreground ltr">{word.english}</p>
-      </motion.div>
+      <WordDisplay word={word} onPlayAudio={() => playWordAudio(word.word)} />
 
       {/* Canvas */}
       <div className="w-full max-w-lg mb-4">
