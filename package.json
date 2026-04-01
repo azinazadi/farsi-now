@@ -10,7 +10,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "upload-audio": "node scripts/upload-audio.mjs",
+    "upload-audio:dry": "node scripts/upload-audio.mjs --dry-run",
+    "upload-audio:force": "node scripts/upload-audio.mjs --force"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
