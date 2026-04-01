@@ -8,15 +8,24 @@ export const useAudio = () => {
   const isMuted = useGameStore((s) => s.isMuted);
 
   const play = useCallback(
-    (src: string, customKey?: string) => {
+    (src: string, supabasePath?: string) => {
       if (isMuted) return;
       try {
         if (audioRef.current) {
           audioRef.current.pause();
         }
-        const customSrc = customKey ? getCustomAudio(customKey) : null;
-        audioRef.current = new Audio(customSrc || src);
-        audioRef.current.play().catch(() => {});
+        // Try Supabase Storage first, fall back to local assets
+        const resolvedSrc = supabasePath ? getAudioUrl(supabasePath) : src;
+        const audio = new Audio(resolvedSrc);
+        audio.onerror = () => {
+          // Fallback to local asset if Supabase file doesn't exist
+          if (supabasePath && resolvedSrc !== src) {
+            audioRef.current = new Audio(src);
+            audioRef.current.play().catch(() => {});
+          }
+        };
+        audioRef.current = audio;
+        audio.play().catch(() => {});
       } catch {}
     },
     [isMuted]
