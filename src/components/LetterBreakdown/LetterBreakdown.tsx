@@ -12,9 +12,9 @@ const LetterBreakdown = ({ word }: LetterBreakdownProps) => {
   const { playLetterAudio } = useAudio();
 
   return (
-    <div className="flex flex-row-reverse items-center justify-center gap-1 flex-wrap mt-4">
+    <div dir="rtl" className="flex items-center justify-center gap-1 flex-wrap mt-4">
       {analysis.map((item, i) => (
-        <div key={i} className="flex items-center flex-row-reverse">
+        <div key={i} className="flex items-center">
           <motion.button
             className="letter-tile bg-card shadow-md"
             onClick={() => playLetterAudio(item.letter)}
@@ -28,7 +28,7 @@ const LetterBreakdown = ({ word }: LetterBreakdownProps) => {
             >
               {item.contextualForm}
             </span>
-            <span className="text-xs text-muted-foreground ltr mt-1">
+            <span className="text-xs text-muted-foreground mt-1" style={{ direction: 'ltr' }}>
               {getTransliteration(item.letter)}
             </span>
           </motion.button>
