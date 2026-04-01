@@ -24,7 +24,8 @@ describe("gameStore", () => {
     expect(useGameStore.getState().isLevelUnlocked(1)).toBe(true);
   });
 
-  it("initializes with other levels locked", () => {
+  it("initializes with other levels locked (when debug off)", () => {
+    if (DEBUG.UNLOCK_ALL_LEVELS) return; // skip when debug flag is on
     expect(useGameStore.getState().isLevelUnlocked(2)).toBe(false);
     expect(useGameStore.getState().isLevelUnlocked(8)).toBe(false);
   });
