@@ -218,8 +218,9 @@ async def generate_phrase_audio(config_path: str | None = None):
             new_map[clean] = h
             path = os.path.join(phrases_dir, f"{h}.mp3")
 
-            # Use phonetic override if available
-            tts_text = phonetics.get(clean, clean)
+            # Always use original Farsi text for TTS (fa-IR voice)
+            # Latin phonetics are for reference only, not for the Farsi TTS engine
+            tts_text = clean
 
             if os.path.exists(path) and os.path.getsize(path) > 2000:
                 # Only regenerate if phonetic override exists and differs
