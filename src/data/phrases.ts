@@ -380,7 +380,7 @@ const getCustomPhraseAudio = (phrase: string): string | null => {
     const clean = stripEmoji(phrase);
     const hash = audioMap[clean] || audioMap[phrase];
     if (hash) {
-      const customSrc = audioFiles[\`audio/phrases/\${hash}\`];
+      const customSrc = audioFiles[`audio/phrases/${hash}`];
       if (customSrc) return customSrc;
     }
     try {
