@@ -64,6 +64,15 @@ const AdminPage = () => {
     }
   });
 
+  const [phonetics, setPhonetics] = useState<Record<string, string>>(() => {
+    try {
+      const saved = localStorage.getItem(PHONETICS_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
   // Save to localStorage on change
   useEffect(() => {
     localStorage.setItem(LEVELS_STORAGE_KEY, JSON.stringify(levels));
@@ -76,6 +85,10 @@ const AdminPage = () => {
   useEffect(() => {
     localStorage.setItem(AUDIO_MAP_STORAGE_KEY, JSON.stringify(audioMap));
   }, [audioMap]);
+
+  useEffect(() => {
+    localStorage.setItem(PHONETICS_STORAGE_KEY, JSON.stringify(phonetics));
+  }, [phonetics]);
 
   const handleAudioSave = (blob: Blob, path: string) => {
     const reader = new FileReader();
