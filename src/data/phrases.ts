@@ -426,57 +426,119 @@ export const phrases = {
 } as const;
 
 /** Strip emoji to find the audio map key */
-const stripEmoji = (text: string): string =>
+export const stripEmoji = (text: string): string =>
   text.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FEFF}]|[\u200D\uFE0F]|[😊😍😂😈😜😋🤗⚡🌟🌸🚀🐥🐶💪🎉🔥👏🛡️🌠📱☕🗝️🔑💃🍰🧠🖼️😎🦇😳💣👍😏❤️🚨🎬]/gu, '').trim();
 
+const normalizePhraseText = (text: string): string => text.replace(/\s+/g, " ").trim();
+
+const getPhraseLookupKeys = (phrase: string): string[] => {
+  const raw = phrase.trim();
+  const stripped = stripEmoji(phrase);
+  const normalizedStripped = normalizePhraseText(stripped);
+  const normalizedRaw = normalizePhraseText(raw);
+
+  return Array.from(
+    new Set([normalizedStripped, stripped, normalizedRaw, raw].filter(Boolean))
+  );
+};
+
 /** Get audio URL for a phrase */
-const getPhraseAudioUrl = (phrase: string): string | null => {
-  const clean = stripEmoji(phrase);
-  const hash = audioMap[clean];
-  if (hash) return `/assets/audio/phrases/${hash}.mp3`;
-  const hash2 = audioMap[phrase];
-  if (hash2) return `/assets/audio/phrases/${hash2}.mp3`;
+export const getPhraseAudioUrl = (phrase: string): string | null => {
+  for (const key of getPhraseLookupKeys(phrase)) {
+    const hash = exactPhraseAudioMap[key];
+    if (hash) return `/assets/audio/phrases/${hash}.mp3`;
+  }
+
   return null;
 };
 
 /** Play a phrase audio (respects mute via passed flag) */
 let currentPhraseAudio: HTMLAudioElement | null = null;
 
+const stopPhrasePlayback = () => {
+  if (currentPhraseAudio) {
+    currentPhraseAudio.pause();
+    currentPhraseAudio = null;
+  }
+
+  if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+};
+
 const getCustomPhraseAudio = (phrase: string): string | null => {
   try {
     const stored = localStorage.getItem("admin-audio-files");
     if (!stored) return null;
-    const audioFiles = JSON.parse(stored);
-    const clean = stripEmoji(phrase);
-    const hash = audioMap[clean] || audioMap[phrase];
-    if (hash) {
-      const customSrc = audioFiles[`audio/phrases/${hash}`];
-      if (customSrc) return customSrc;
-    }
+
+    const audioFiles = JSON.parse(stored) as Record<string, string>;
+    const lookupKeys = getPhraseLookupKeys(phrase);
+
     try {
-      const adminMap = JSON.parse(localStorage.getItem("admin-audio-map") || "{}");
-      const adminHash = adminMap[clean] || adminMap[phrase];
-      if (adminHash) {
+      const adminMap = JSON.parse(localStorage.getItem("admin-audio-map") || "{}") as Record<string, string>;
+
+      for (const key of lookupKeys) {
+        const adminHash = adminMap[key];
+        if (!adminHash) continue;
+
         const customSrc = audioFiles[`audio/phrases/${adminHash}`];
         if (customSrc) return customSrc;
       }
     } catch {}
+
     return null;
   } catch {
     return null;
   }
 };
 
+const speakPhraseWithBrowser = (phrase: string): boolean => {
+  if (
+    typeof window === "undefined" ||
+    typeof SpeechSynthesisUtterance === "undefined" ||
+    !("speechSynthesis" in window)
+  ) {
+    return false;
+  }
+
+  const text = normalizePhraseText(stripEmoji(phrase));
+  if (!text) return false;
+
+  try {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "fa-IR";
+    utterance.rate = 1;
+    utterance.pitch = 1.1;
+    utterance.volume = 1;
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export const playPhraseAudio = (phrase: string, isMuted = false) => {
   if (isMuted) return;
+
   const customSrc = getCustomPhraseAudio(phrase);
   const url = customSrc || getPhraseAudioUrl(phrase);
-  if (!url) return;
-  try {
-    if (currentPhraseAudio) currentPhraseAudio.pause();
-    currentPhraseAudio = new Audio(url);
-    currentPhraseAudio.play().catch(() => {});
-  } catch {}
+
+  if (url) {
+    try {
+      stopPhrasePlayback();
+      currentPhraseAudio = new Audio(url);
+      currentPhraseAudio.play().catch(() => {
+        speakPhraseWithBrowser(phrase);
+      });
+    } catch {
+      speakPhraseWithBrowser(phrase);
+    }
+    return;
+  }
+
+  speakPhraseWithBrowser(phrase);
 };
 
 export const getPhrase = (category: keyof typeof phrases): string => pick([...phrases[category]]);
