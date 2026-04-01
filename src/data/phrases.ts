@@ -363,9 +363,9 @@ const stripEmoji = (text: string): string =>
 const getPhraseAudioUrl = (phrase: string): string | null => {
   const clean = stripEmoji(phrase);
   const hash = audioMap[clean];
-  if (hash) return \`/assets/audio/phrases/\${hash}.mp3\`;
+  if (hash) return `/assets/audio/phrases/${hash}.mp3`;
   const hash2 = audioMap[phrase];
-  if (hash2) return \`/assets/audio/phrases/\${hash2}.mp3\`;
+  if (hash2) return `/assets/audio/phrases/${hash2}.mp3`;
   return null;
 };
 
@@ -380,14 +380,14 @@ const getCustomPhraseAudio = (phrase: string): string | null => {
     const clean = stripEmoji(phrase);
     const hash = audioMap[clean] || audioMap[phrase];
     if (hash) {
-      const customSrc = audioFiles[\`audio/phrases/\${hash}\`];
+      const customSrc = audioFiles[`audio/phrases/${hash}`];
       if (customSrc) return customSrc;
     }
     try {
       const adminMap = JSON.parse(localStorage.getItem("admin-audio-map") || "{}");
       const adminHash = adminMap[clean] || adminMap[phrase];
       if (adminHash) {
-        const customSrc = audioFiles[\`audio/phrases/\${adminHash}\`];
+        const customSrc = audioFiles[`audio/phrases/${adminHash}`];
         if (customSrc) return customSrc;
       }
     } catch {}
