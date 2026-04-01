@@ -489,13 +489,13 @@ export const getPhraseAudioSequenceUrls = (phrase: string): string[] => {
     let bestIndex = -1;
 
     for (const entry of exactPhraseAudioEntries) {
-      const matchIndex = target.indexOf(entry.text, cursor);
+      const matchIndex = target.indexOf(entry.searchText, cursor);
       if (matchIndex === -1) continue;
 
       if (
         bestMatch === null ||
         matchIndex < bestIndex ||
-        (matchIndex === bestIndex && entry.text.length > bestMatch.text.length)
+        (matchIndex === bestIndex && entry.searchText.length > bestMatch.searchText.length)
       ) {
         bestMatch = entry;
         bestIndex = matchIndex;
