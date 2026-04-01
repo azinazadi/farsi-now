@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import LevelPage from "./pages/LevelPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AudioTestPage from "./pages/AudioTestPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/level/:levelId" element={<LevelPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/audio-test" element={<AudioTestPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
