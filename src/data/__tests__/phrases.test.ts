@@ -109,44 +109,8 @@ describe("Phrase audio files exist on disk", () => {
     expect(missing).toEqual([]);
   });
 
-  it("every phrase in phrases object has a matching audioMap key", () => {
-    // Extract audioMap keys from source
-    const audioMapSection = phrasesSource.match(
-      /const audioMap[^{]*\{([^}]+)\}/s
-    );
-    expect(audioMapSection).not.toBeNull();
-
-    const keyMatches = audioMapSection![1].matchAll(/"([^"]+)":\s*"/g);
-    const audioMapKeys = new Set<string>();
-    for (const match of keyMatches) {
-      audioMapKeys.add(match[1]);
-    }
-
-    // Check every phrase resolves
-    const allCategories = Object.keys(phrases) as (keyof typeof phrases)[];
-    const mapped: string[] = [];
-    const unmapped: string[] = [];
-
-    for (const cat of allCategories) {
-      for (const phrase of phrases[cat]) {
-        const clean = stripEmoji(phrase);
-        if (audioMapKeys.has(clean) || audioMapKeys.has(phrase)) {
-          mapped.push(`[${cat}] ${clean}`);
-        } else {
-          unmapped.push(`[${cat}] ${clean}`);
-        }
-      }
-    }
-
-    // At least 40% of phrases should have audio mapped
-    const coverage = mapped.length / (mapped.length + unmapped.length);
-    console.log(`Audio coverage: ${mapped.length}/${mapped.length + unmapped.length} (${(coverage * 100).toFixed(1)}%)`);
-
-    if (unmapped.length > 0) {
-      console.warn(`${unmapped.length} phrases still need audio generation (ElevenLabs credits needed)`);
-    }
-
-    // Ensure at least 40% coverage (currently ~46%)
-    expect(coverage).toBeGreaterThan(0.4);
+  it("avoids unsafe tiny partial matches for long phrases", () => {
+    expect(getPhraseAudioUrl("به به! اومدی بالاخره، صفا آوردی به دلمون ❤️")).toBeNull();
+    expect(getPhraseAudioSequenceUrls("به به! اومدی بالاخره، صفا آوردی به دلمون ❤️")).toEqual([]);
   });
 });

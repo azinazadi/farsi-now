@@ -432,6 +432,22 @@ export const stripEmoji = (text: string): string =>
 
 const normalizePhraseText = (text: string): string => text.replace(/\s+/g, " ").trim();
 
+const sanitizePhraseForSpeech = (text: string): string =>
+  normalizePhraseText(stripEmoji(text).replace(/[!?.؟،,:؛…]/g, " "));
+
+const hasPersianLetters = (text: string): boolean => /[\u0600-\u06FF]/.test(text);
+
+const normalizedExactPhraseAudioMap: Record<string, string> = Object.fromEntries(
+  Object.entries(exactPhraseAudioMap).map(([key, hash]) => [normalizePhraseText(key), hash])
+);
+
+const exactPhraseAudioEntries = Object.entries(normalizedExactPhraseAudioMap)
+  .map(([text, hash]) => ({
+    text,
+    url: `/assets/audio/phrases/${hash}.mp3`,
+  }))
+  .sort((a, b) => b.text.length - a.text.length);
+
 const getPhraseLookupKeys = (phrase: string): string[] => {
   const raw = phrase.trim();
   const stripped = stripEmoji(phrase);
@@ -446,17 +462,77 @@ const getPhraseLookupKeys = (phrase: string): string[] => {
 /** Get audio URL for a phrase */
 export const getPhraseAudioUrl = (phrase: string): string | null => {
   for (const key of getPhraseLookupKeys(phrase)) {
-    const hash = exactPhraseAudioMap[key];
+    const hash = exactPhraseAudioMap[key] || normalizedExactPhraseAudioMap[normalizePhraseText(key)];
     if (hash) return `/assets/audio/phrases/${hash}.mp3`;
   }
 
   return null;
 };
 
+export const getPhraseAudioSequenceUrls = (phrase: string): string[] => {
+  const exactUrl = getPhraseAudioUrl(phrase);
+  if (exactUrl) return [exactUrl];
+
+  const target = sanitizePhraseForSpeech(phrase);
+  if (!target || !hasPersianLetters(target)) return [];
+
+  const matchedSegments: Array<{ text: string; url: string }> = [];
+  let matchedChars = 0;
+  let cursor = 0;
+
+  while (cursor < target.length) {
+    while (target[cursor] === " ") cursor += 1;
+    if (cursor >= target.length) break;
+
+    let bestMatch: { text: string; url: string } | null = null;
+    let bestIndex = -1;
+
+    for (const entry of exactPhraseAudioEntries) {
+      const matchIndex = target.indexOf(entry.text, cursor);
+      if (matchIndex === -1) continue;
+
+      if (
+        bestMatch === null ||
+        matchIndex < bestIndex ||
+        (matchIndex === bestIndex && entry.text.length > bestMatch.text.length)
+      ) {
+        bestMatch = entry;
+        bestIndex = matchIndex;
+      }
+    }
+
+    if (!bestMatch || bestIndex === -1) break;
+
+    matchedSegments.push(bestMatch);
+    matchedChars += bestMatch.text.replace(/\s+/g, "").length;
+    cursor = bestIndex + bestMatch.text.length;
+  }
+
+  if (matchedSegments.length === 0) return [];
+
+  const targetChars = target.replace(/\s+/g, "").length;
+  const coverage = targetChars > 0 ? matchedChars / targetChars : 0;
+
+  if (targetChars >= 20 && coverage < 0.55) return [];
+  if (targetChars >= 12 && matchedSegments.length === 1 && coverage < 0.75) return [];
+
+  const urls: string[] = [];
+  for (const segment of matchedSegments) {
+    if (urls[urls.length - 1] !== segment.url) {
+      urls.push(segment.url);
+    }
+  }
+
+  return urls;
+};
+
 /** Play a phrase audio (respects mute via passed flag) */
 let currentPhraseAudio: HTMLAudioElement | null = null;
+let currentPlaybackToken = 0;
 
 const stopPhrasePlayback = () => {
+  currentPlaybackToken += 1;
+
   if (currentPhraseAudio) {
     currentPhraseAudio.pause();
     currentPhraseAudio = null;
@@ -493,6 +569,16 @@ const getCustomPhraseAudio = (phrase: string): string | null => {
   }
 };
 
+const hasFarsiSpeechVoice = (): boolean => {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    return false;
+  }
+
+  return window.speechSynthesis
+    .getVoices()
+    .some((voice) => voice.lang.toLowerCase().startsWith("fa"));
+};
+
 const speakPhraseWithBrowser = (phrase: string): boolean => {
   if (
     typeof window === "undefined" ||
@@ -502,14 +588,19 @@ const speakPhraseWithBrowser = (phrase: string): boolean => {
     return false;
   }
 
-  const text = normalizePhraseText(stripEmoji(phrase));
-  if (!text) return false;
+  const text = sanitizePhraseForSpeech(phrase);
+  if (!text || !hasPersianLetters(text) || !hasFarsiSpeechVoice()) return false;
 
   try {
     const utterance = new SpeechSynthesisUtterance(text);
+    const farsiVoice = window.speechSynthesis
+      .getVoices()
+      .find((voice) => voice.lang.toLowerCase().startsWith("fa"));
+
     utterance.lang = "fa-IR";
+    if (farsiVoice) utterance.voice = farsiVoice;
     utterance.rate = 1;
-    utterance.pitch = 1.1;
+    utterance.pitch = 1.05;
     utterance.volume = 1;
 
     window.speechSynthesis.cancel();
@@ -520,22 +611,63 @@ const speakPhraseWithBrowser = (phrase: string): boolean => {
   }
 };
 
+const playAudioSequence = (
+  urls: string[],
+  phrase: string,
+  playbackToken: number,
+  index = 0
+) => {
+  if (playbackToken !== currentPlaybackToken) return;
+  if (index >= urls.length) {
+    currentPhraseAudio = null;
+    return;
+  }
+
+  try {
+    const audio = new Audio(urls[index]);
+    currentPhraseAudio = audio;
+
+    audio.addEventListener(
+      "ended",
+      () => {
+        if (playbackToken !== currentPlaybackToken) return;
+        playAudioSequence(urls, phrase, playbackToken, index + 1);
+      },
+      { once: true }
+    );
+
+    audio.addEventListener(
+      "error",
+      () => {
+        if (playbackToken !== currentPlaybackToken) return;
+        currentPhraseAudio = null;
+        speakPhraseWithBrowser(phrase);
+      },
+      { once: true }
+    );
+
+    audio.play().catch(() => {
+      if (playbackToken !== currentPlaybackToken) return;
+      currentPhraseAudio = null;
+      speakPhraseWithBrowser(phrase);
+    });
+  } catch {
+    if (playbackToken !== currentPlaybackToken) return;
+    currentPhraseAudio = null;
+    speakPhraseWithBrowser(phrase);
+  }
+};
+
 export const playPhraseAudio = (phrase: string, isMuted = false) => {
   if (isMuted) return;
 
   const customSrc = getCustomPhraseAudio(phrase);
-  const url = customSrc || getPhraseAudioUrl(phrase);
+  const urls = customSrc ? [customSrc] : getPhraseAudioSequenceUrls(phrase);
 
-  if (url) {
-    try {
-      stopPhrasePlayback();
-      currentPhraseAudio = new Audio(url);
-      currentPhraseAudio.play().catch(() => {
-        speakPhraseWithBrowser(phrase);
-      });
-    } catch {
-      speakPhraseWithBrowser(phrase);
-    }
+  stopPhrasePlayback();
+
+  if (urls.length > 0) {
+    playAudioSequence(urls, phrase, currentPlaybackToken);
     return;
   }
 
