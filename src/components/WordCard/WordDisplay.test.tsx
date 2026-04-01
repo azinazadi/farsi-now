@@ -5,7 +5,7 @@ import WordDisplay from "./WordDisplay";
 vi.mock("framer-motion", () => ({
   motion: {
     div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{children}</div>,
-    button: ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+    button: ({ children, whileTap: _whileTap, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { whileTap?: unknown }) => (
       <button {...props}>{children}</button>
     ),
   },
