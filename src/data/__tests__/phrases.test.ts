@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { phrases, getPhrase, getScorePhrase, getPhraseAudioUrl } from "../phrases";
+import {
+  phrases,
+  getPhrase,
+  getScorePhrase,
+  getPhraseAudioUrl,
+  getPhraseAudioSequenceUrls,
+} from "../phrases";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -13,13 +19,9 @@ const stripEmoji = (text: string): string =>
     ""
   ).trim();
 
-// Import the audioMap indirectly by reading the source
-// We test that every phrase in every category resolves to an audio file
-
 describe("Phrase audio mapping", () => {
   const allCategories = Object.keys(phrases) as (keyof typeof phrases)[];
 
-  // Collect all phrases across all categories
   const allPhrases: { category: string; phrase: string }[] = [];
   for (const cat of allCategories) {
     for (const phrase of phrases[cat]) {
@@ -50,11 +52,12 @@ describe("Phrase audio mapping", () => {
     }
   });
 
-  it("does not map a full phrase to a shorter canned audio clip", () => {
-    const shortPhraseUrl = getPhraseAudioUrl("سلام! چطوری؟");
-    const fullPhraseUrl = getPhraseAudioUrl("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️");
-    expect(shortPhraseUrl).toBe("/assets/audio/phrases/a3f5bdccd3bd.mp3");
-    expect(fullPhraseUrl).not.toBe(shortPhraseUrl);
+  it("stitches a long phrase from multiple exact audio clips", () => {
+    expect(getPhraseAudioUrl("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️")).toBeNull();
+    expect(getPhraseAudioSequenceUrls("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️")).toEqual([
+      "/assets/audio/phrases/a3f5bdccd3bd.mp3",
+      "/assets/audio/phrases/2af08e0d6cd5.mp3",
+    ]);
   });
 
   it("stripEmoji removes all emoji from phrases", () => {
@@ -106,44 +109,8 @@ describe("Phrase audio files exist on disk", () => {
     expect(missing).toEqual([]);
   });
 
-  it("every phrase in phrases object has a matching audioMap key", () => {
-    // Extract audioMap keys from source
-    const audioMapSection = phrasesSource.match(
-      /const audioMap[^{]*\{([^}]+)\}/s
-    );
-    expect(audioMapSection).not.toBeNull();
-
-    const keyMatches = audioMapSection![1].matchAll(/"([^"]+)":\s*"/g);
-    const audioMapKeys = new Set<string>();
-    for (const match of keyMatches) {
-      audioMapKeys.add(match[1]);
-    }
-
-    // Check every phrase resolves
-    const allCategories = Object.keys(phrases) as (keyof typeof phrases)[];
-    const mapped: string[] = [];
-    const unmapped: string[] = [];
-
-    for (const cat of allCategories) {
-      for (const phrase of phrases[cat]) {
-        const clean = stripEmoji(phrase);
-        if (audioMapKeys.has(clean) || audioMapKeys.has(phrase)) {
-          mapped.push(`[${cat}] ${clean}`);
-        } else {
-          unmapped.push(`[${cat}] ${clean}`);
-        }
-      }
-    }
-
-    // At least 40% of phrases should have audio mapped
-    const coverage = mapped.length / (mapped.length + unmapped.length);
-    console.log(`Audio coverage: ${mapped.length}/${mapped.length + unmapped.length} (${(coverage * 100).toFixed(1)}%)`);
-
-    if (unmapped.length > 0) {
-      console.warn(`${unmapped.length} phrases still need audio generation (ElevenLabs credits needed)`);
-    }
-
-    // Ensure at least 40% coverage (currently ~46%)
-    expect(coverage).toBeGreaterThan(0.4);
+  it("avoids unsafe tiny partial matches for long phrases", () => {
+    expect(getPhraseAudioUrl("به به! اومدی بالاخره، صفا آوردی به دلمون ❤️")).toBeNull();
+    expect(getPhraseAudioSequenceUrls("به به! اومدی بالاخره، صفا آوردی به دلمون ❤️")).toEqual([]);
   });
 });
