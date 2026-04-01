@@ -443,10 +443,11 @@ const normalizedExactPhraseAudioMap: Record<string, string> = Object.fromEntries
 
 const exactPhraseAudioEntries = Object.entries(normalizedExactPhraseAudioMap)
   .map(([text, hash]) => ({
-    text,
+    searchText: sanitizePhraseForSpeech(text),
     url: `/assets/audio/phrases/${hash}.mp3`,
   }))
-  .sort((a, b) => b.text.length - a.text.length);
+  .filter((entry) => entry.searchText && hasPersianLetters(entry.searchText))
+  .sort((a, b) => b.searchText.length - a.searchText.length);
 
 const getPhraseLookupKeys = (phrase: string): string[] => {
   const raw = phrase.trim();
