@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import AudioRecorderButton from "./AudioRecorderButton";
 import { allFarsiLetters, getTransliteration } from "@/utils/transliteration";
+import { getAudioAssetStem, getLetterAudioPath } from "@/utils/audioPaths";
 
 interface LettersEditorProps {
   onAudioSave: (blob: Blob, path: string) => void;
@@ -27,9 +28,9 @@ const LettersEditor = ({ onAudioSave }: LettersEditorProps) => {
             <div className="flex-1">
               <AudioRecorderButton
                 label=""
-                currentAudioUrl={`/assets/audio/letters/${letter}.mp3`}
-                onSave={(blob) => onAudioSave(blob, `audio/letters/${letter}`)}
-                filename={`${letter}.mp3`}
+                currentAudioUrl={getLetterAudioPath(letter)}
+                onSave={(blob) => onAudioSave(blob, `audio/letters/${getAudioAssetStem(letter)}`)}
+                filename={`${getAudioAssetStem(letter)}.mp3`}
               />
             </div>
           </Card>

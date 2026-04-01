@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Plus, Trash2, ChevronDown, ChevronRight, Download, Upload } from "lucide-react";
 import AudioRecorderButton from "./AudioRecorderButton";
 import { toast } from "sonner";
+import { getAudioAssetStem, getWordAudioPath } from "@/utils/audioPaths";
 
 interface WordData {
   word: string;
@@ -178,46 +179,50 @@ const LevelsEditor = ({ levels, onLevelsChange, onAudioSave }: LevelsEditorProps
 
               <div className="space-y-3">
                 <h4 className="font-semibold text-sm">Words</h4>
-                {level.words.map((word, wordIdx) => (
-                  <Card key={wordIdx} className="p-3 bg-muted/50">
-                    <div className="grid grid-cols-3 gap-2 mb-2">
-                      <div>
-                        <label className="text-xs text-muted-foreground">Farsi</label>
-                        <Input
-                          value={word.word}
-                          onChange={(e) => updateWord(levelIdx, wordIdx, "word", e.target.value)}
-                          dir="rtl"
-                          className="font-bold"
-                        />
+                {level.words.map((word, wordIdx) => {
+                  const wordStem = getAudioAssetStem(word.word);
+
+                  return (
+                    <Card key={wordIdx} className="p-3 bg-muted/50">
+                      <div className="grid grid-cols-3 gap-2 mb-2">
+                        <div>
+                          <label className="text-xs text-muted-foreground">Farsi</label>
+                          <Input
+                            value={word.word}
+                            onChange={(e) => updateWord(levelIdx, wordIdx, "word", e.target.value)}
+                            dir="rtl"
+                            className="font-bold"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs text-muted-foreground">English</label>
+                          <Input
+                            value={word.english}
+                            onChange={(e) => updateWord(levelIdx, wordIdx, "english", e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs text-muted-foreground">Transliteration</label>
+                          <Input
+                            value={word.transliteration}
+                            onChange={(e) => updateWord(levelIdx, wordIdx, "transliteration", e.target.value)}
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <label className="text-xs text-muted-foreground">English</label>
-                        <Input
-                          value={word.english}
-                          onChange={(e) => updateWord(levelIdx, wordIdx, "english", e.target.value)}
+                      <div className="flex items-center justify-between">
+                        <AudioRecorderButton
+                          label="Word Audio"
+                          currentAudioUrl={word.word ? getWordAudioPath(word.word) : undefined}
+                          onSave={(blob) => onAudioSave(blob, `audio/${wordStem}`)}
+                          filename={wordStem ? `${wordStem}.mp3` : ""}
                         />
+                        <Button size="sm" variant="ghost" className="text-destructive" onClick={() => removeWord(levelIdx, wordIdx)}>
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
                       </div>
-                      <div>
-                        <label className="text-xs text-muted-foreground">Transliteration</label>
-                        <Input
-                          value={word.transliteration}
-                          onChange={(e) => updateWord(levelIdx, wordIdx, "transliteration", e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <AudioRecorderButton
-                        label="Word Audio"
-                        currentAudioUrl={word.word ? `/assets/audio/${word.word}.mp3` : undefined}
-                        onSave={(blob) => onAudioSave(blob, `audio/${word.word}`)}
-                        filename={`${word.word}.mp3`}
-                      />
-                      <Button size="sm" variant="ghost" className="text-destructive" onClick={() => removeWord(levelIdx, wordIdx)}>
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
                 <Button size="sm" variant="outline" onClick={() => addWord(levelIdx)}>
                   <Plus className="h-3 w-3 mr-1" /> Add Word
                 </Button>

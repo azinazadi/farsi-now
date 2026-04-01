@@ -1,5 +1,6 @@
 import { useCallback, useRef } from "react";
 import { useGameStore } from "@/store/gameStore";
+import { getLetterAudioPath, getWordAudioPath } from "@/utils/audioPaths";
 
 export const useAudio = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -25,14 +26,14 @@ export const useAudio = () => {
 
   const playWordAudio = useCallback(
     (word: string) => {
-      play(`/assets/audio/${encodeURIComponent(word)}.mp3`);
+      play(getWordAudioPath(word));
     },
     [play]
   );
 
   const playLetterAudio = useCallback(
     (letter: string) => {
-      play(`/assets/audio/letters/${encodeURIComponent(letter)}.mp3`);
+      play(getLetterAudioPath(letter));
     },
     [play]
   );
