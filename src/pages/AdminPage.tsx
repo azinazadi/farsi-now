@@ -90,19 +90,16 @@ const AdminPage = () => {
     localStorage.setItem(PHONETICS_STORAGE_KEY, JSON.stringify(phonetics));
   }, [phonetics]);
 
-  const handleAudioSave = (blob: Blob, path: string) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const audioFiles = JSON.parse(localStorage.getItem(AUDIO_FILES_STORAGE_KEY) || "{}");
-        audioFiles[path] = reader.result;
-        localStorage.setItem(AUDIO_FILES_STORAGE_KEY, JSON.stringify(audioFiles));
-        toast.success(`Audio saved for: ${path.split("/").pop()}`);
-      } catch {
-        toast.error("Failed to save audio - storage may be full");
-      }
-    };
-    reader.readAsDataURL(blob);
+  const handleAudioSave = async (blob: Blob, path: string) => {
+    try {
+      const { uploadAudio } = await import("@/services/audioStorage");
+      const url = await uploadAudio(blob, path);
+      toast.success(`Audio uploaded: ${path.split("/").pop()}`);
+      console.log("Uploaded to:", url);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      toast.error(`Failed to upload audio: ${err instanceof Error ? err.message : "Unknown error"}`);
+    }
   };
 
   const exportAll = () => {

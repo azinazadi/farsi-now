@@ -1,19 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useGameStore } from "@/store/gameStore";
 import { getLetterAudioPath, getWordAudioPath, getAudioAssetStem } from "@/utils/audioPaths";
-
-const AUDIO_FILES_STORAGE_KEY = "admin-audio-files";
-
-const getCustomAudio = (assetPath: string): string | null => {
-  try {
-    const stored = localStorage.getItem(AUDIO_FILES_STORAGE_KEY);
-    if (!stored) return null;
-    const audioFiles = JSON.parse(stored);
-    return audioFiles[assetPath] || null;
-  } catch {
-    return null;
-  }
-};
+import { getAudioUrl } from "@/services/audioStorage";
 
 export const useAudio = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
