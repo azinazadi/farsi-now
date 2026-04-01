@@ -14,6 +14,9 @@ const LEVELS_STORAGE_KEY = "admin-levels";
 const PHRASES_STORAGE_KEY = "admin-phrases";
 const AUDIO_MAP_STORAGE_KEY = "admin-audio-map";
 const AUDIO_FILES_STORAGE_KEY = "admin-audio-files";
+const PHONETICS_STORAGE_KEY = "admin-phonetics";
+const AUDIO_MAP_STORAGE_KEY = "admin-audio-map";
+const AUDIO_FILES_STORAGE_KEY = "admin-audio-files";
 
 // Default audio map from phrases.ts (extracted)
 const defaultAudioMap: Record<string, string> = {
