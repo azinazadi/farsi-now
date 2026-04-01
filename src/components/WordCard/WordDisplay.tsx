@@ -20,7 +20,7 @@ const WordDisplay = ({ word, onPlayAudio }: WordDisplayProps) => {
         <img
           src={`/assets/images/${word.word}.png`}
           alt={word.english}
-          className="w-24 h-24 md:w-28 md:h-28 object-contain rounded-2xl"
+          className="w-40 h-40 md:w-48 md:h-48 object-contain rounded-2xl"
           loading="lazy"
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = "none";
