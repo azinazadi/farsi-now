@@ -14,6 +14,7 @@ const LEVELS_STORAGE_KEY = "admin-levels";
 const PHRASES_STORAGE_KEY = "admin-phrases";
 const AUDIO_MAP_STORAGE_KEY = "admin-audio-map";
 const AUDIO_FILES_STORAGE_KEY = "admin-audio-files";
+const PHONETICS_STORAGE_KEY = "admin-phonetics";
 
 // Default audio map from phrases.ts (extracted)
 const defaultAudioMap: Record<string, string> = {
@@ -63,6 +64,15 @@ const AdminPage = () => {
     }
   });
 
+  const [phonetics, setPhonetics] = useState<Record<string, string>>(() => {
+    try {
+      const saved = localStorage.getItem(PHONETICS_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
   // Save to localStorage on change
   useEffect(() => {
     localStorage.setItem(LEVELS_STORAGE_KEY, JSON.stringify(levels));
@@ -75,6 +85,10 @@ const AdminPage = () => {
   useEffect(() => {
     localStorage.setItem(AUDIO_MAP_STORAGE_KEY, JSON.stringify(audioMap));
   }, [audioMap]);
+
+  useEffect(() => {
+    localStorage.setItem(PHONETICS_STORAGE_KEY, JSON.stringify(phonetics));
+  }, [phonetics]);
 
   const handleAudioSave = (blob: Blob, path: string) => {
     const reader = new FileReader();
@@ -96,6 +110,7 @@ const AdminPage = () => {
       levels,
       phrases,
       audioMap,
+      phonetics,
       exportDate: new Date().toISOString(),
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -138,6 +153,8 @@ const AdminPage = () => {
             audioMap={audioMap}
             onAudioMapChange={setAudioMap}
             onAudioSave={handleAudioSave}
+            phonetics={phonetics}
+            onPhoneticsChange={setPhonetics}
           />
         </TabsContent>
 
