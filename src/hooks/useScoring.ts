@@ -35,9 +35,9 @@ export const useScoring = () => {
   );
 
   const getStars = useCallback((overlap: number): number => {
-    if (overlap >= 85) return 3;
-    if (overlap >= 70) return 2;
-    if (overlap >= 50) return 1;
+    if (overlap >= 60) return 3;
+    if (overlap >= 40) return 2;
+    if (overlap >= 20) return 1;
     return 0;
   }, []);
 

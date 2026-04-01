@@ -32,12 +32,28 @@ export const useDrawing = (canvasRef: React.RefObject<HTMLCanvasElement | null>)
     [canvasRef]
   );
 
+  const drawDot = useCallback(
+    (point: { x: number; y: number; pressure: number }) => {
+      const ctx = canvasRef.current?.getContext("2d");
+      if (!ctx) return;
+      const radius = (6 + point.pressure * 4) / 2;
+      ctx.fillStyle = "hsl(280, 60%, 40%)";
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    },
+    [canvasRef]
+  );
+
   const startDrawing = useCallback(
     (e: React.MouseEvent | React.TouchEvent) => {
       const point = getPoint(e);
       if (!point) return;
       setIsDrawing(true);
       currentStroke.current = [point];
+
+      // Draw a dot immediately so clicks are visible
+      drawDot(point);
 
       const ctx = canvasRef.current?.getContext("2d");
       if (ctx) {
@@ -49,7 +65,7 @@ export const useDrawing = (canvasRef: React.RefObject<HTMLCanvasElement | null>)
         ctx.lineJoin = "round";
       }
     },
-    [getPoint, canvasRef]
+    [getPoint, canvasRef, drawDot]
   );
 
   const draw = useCallback(
