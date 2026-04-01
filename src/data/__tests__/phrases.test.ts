@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { phrases, getPhrase, getScorePhrase, playPhraseAudio } from "../phrases";
+import { phrases, getPhrase, getScorePhrase, getPhraseAudioUrl } from "../phrases";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -48,6 +48,13 @@ describe("Phrase audio mapping", () => {
       expect(typeof result).toBe("string");
       expect(result.length).toBeGreaterThan(0);
     }
+  });
+
+  it("does not map a full phrase to a shorter canned audio clip", () => {
+    const shortPhraseUrl = getPhraseAudioUrl("سلام! چطوری؟");
+    const fullPhraseUrl = getPhraseAudioUrl("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️");
+    expect(shortPhraseUrl).toBe("/assets/audio/phrases/a3f5bdccd3bd.mp3");
+    expect(fullPhraseUrl).not.toBe(shortPhraseUrl);
   });
 
   it("stripEmoji removes all emoji from phrases", () => {
