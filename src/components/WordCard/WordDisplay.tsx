@@ -18,7 +18,7 @@ const WordDisplay = ({ word, onPlayAudio }: WordDisplayProps) => {
       {/* Word image */}
       <div className="mb-3 flex justify-center">
         <img
-          src={`/assets/images/${word.word}.png`}
+          src={`/assets/images/${encodeURIComponent(word.word)}.png`}
           alt={word.english}
           className="w-40 h-40 md:w-48 md:h-48 object-contain rounded-2xl"
           loading="lazy"

@@ -25,7 +25,7 @@ const TracingCanvas = ({ word, onScore }: TracingCanvasProps) => {
     setCanvasKey((k) => k + 1);
   }, [word, clearCanvas]);
 
-  // Draw ghost word
+  // Draw ghost word – auto-size to fill canvas
   useEffect(() => {
     const canvas = ghostCanvasRef.current;
     if (!canvas) return;
@@ -35,7 +35,22 @@ const TracingCanvas = ({ word, onScore }: TracingCanvasProps) => {
     ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
 
     document.fonts.ready.then(() => {
-      ctx.font = "bold 80px Vazirmatn";
+      // Binary search for the largest font size that fits
+      let lo = 40, hi = 300, best = 80;
+      while (lo <= hi) {
+        const mid = Math.floor((lo + hi) / 2);
+        ctx.font = `bold ${mid}px Vazirmatn`;
+        const m = ctx.measureText(word);
+        const textW = m.width;
+        const textH = mid; // approximate height
+        if (textW < CANVAS_W * 0.9 && textH < CANVAS_H * 0.85) {
+          best = mid;
+          lo = mid + 1;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      ctx.font = `bold ${best}px Vazirmatn`;
       ctx.fillStyle = "rgba(180, 160, 200, 0.35)";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";

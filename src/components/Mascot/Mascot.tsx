@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
 import { MascotMood } from "@/types";
+import { useAudio } from "@/hooks/useAudio";
+import { getPhrase, playPhraseAudio } from "@/data/phrases";
+import { useGameStore } from "@/store/gameStore";
+import { toast } from "sonner";
+import { useCallback } from "react";
 
 interface MascotProps {
   mood: MascotMood;
@@ -23,11 +28,19 @@ const moodAnimations: Record<MascotMood, any> = {
 };
 
 const Mascot = ({ mood, size = 64 }: MascotProps) => {
+  const handleClick = useCallback(() => {
+    const phrase = getPhrase("greeting");
+    toast(phrase, { duration: 3000 });
+    playPhraseAudio(phrase, useGameStore.getState().isMuted);
+  }, []);
+
   return (
     <motion.div
-      className="select-none"
+      className="select-none cursor-pointer"
       animate={moodAnimations[mood]}
       style={{ fontSize: size, lineHeight: 1 }}
+      onClick={handleClick}
+      whileTap={{ scale: 1.3 }}
     >
       {moodEmojis[mood]}
     </motion.div>
