@@ -112,10 +112,10 @@ describe("100% phrase audio coverage", () => {
         uniquePhrases.add(stripEmoji(phrase).replace(/\s+/g, " ").trim());
       }
     }
-    // Every unique phrase must be in the manifest
-    const { phraseAudioMap } = require("../phraseAudioManifest");
+    // Every unique phrase must resolve to an audio ID
     for (const clean of uniquePhrases) {
-      expect(phraseAudioMap).toHaveProperty(clean);
+      const id = getPhraseAudioId(clean);
+      expect(id).not.toBeNull();
     }
   });
 });
