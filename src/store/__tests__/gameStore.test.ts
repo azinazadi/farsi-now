@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { useGameStore } from "../gameStore";
+import { DEBUG } from "@/config/debug";
 
 // Mock localStorage
 const localStorageMock = (() => {
