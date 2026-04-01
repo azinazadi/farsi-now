@@ -77,19 +77,18 @@ const AdminPage = () => {
   }, [audioMap]);
 
   const handleAudioSave = (blob: Blob, path: string) => {
-    // Store audio blobs as base64 in localStorage
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const audioFiles = JSON.parse(localStorage.getItem(AUDIO_FILES_STORAGE_KEY) || "{}");
-        audioFiles[path] = reader.result;
-        localStorage.setItem(AUDIO_FILES_STORAGE_KEY, JSON.stringify(audioFiles));
-        toast.success(`Audio saved: ${path}`);
-      } catch {
-        toast.error("Failed to save audio - storage may be full");
-      }
-    };
-    reader.readAsDataURL(blob);
+    // Download audio file so it can be added to public/assets/
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    // path is like "audio/letters/u0628" or "audio/u0633-u0644-u0627-u0645"
+    const filename = path.split("/").pop() || "audio";
+    a.download = `${filename}.mp3`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success(`Audio downloaded: ${filename}.mp3 — place it in public/assets/${path}.mp3`);
   };
 
   const exportAll = () => {
