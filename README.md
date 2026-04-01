@@ -19,8 +19,8 @@ A gamified Farsi handwriting learning app for children (ages 6–12), built with
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Regenerate Assets
@@ -81,7 +81,7 @@ Planned backend features: user accounts, pro levels, subscriptions, cloud sync.
 ## Tests
 
 ```bash
-npm test
+pnpm test
 ```
 
 Covers: contextual forms, transliteration, game store logic, scoring, progress persistence, asset integrity (58 tests).
