@@ -199,9 +199,38 @@ const getPhraseAudioUrl = (phrase: string): string | null => {
 /** Play a phrase audio (respects mute via passed flag) */
 let currentPhraseAudio: HTMLAudioElement | null = null;
 
+const getCustomPhraseAudio = (phrase: string): string | null => {
+  try {
+    const stored = localStorage.getItem("admin-audio-files");
+    if (!stored) return null;
+    const audioFiles = JSON.parse(stored);
+    const clean = stripEmoji(phrase);
+    // Check by hash path (admin saves as "audio/phrases/{hash}")
+    const hash = audioMap[clean] || audioMap[phrase];
+    if (hash) {
+      const customSrc = audioFiles[`audio/phrases/${hash}`];
+      if (customSrc) return customSrc;
+    }
+    // Also check admin-audio-map for updated hashes
+    try {
+      const adminMap = JSON.parse(localStorage.getItem("admin-audio-map") || "{}");
+      const adminHash = adminMap[clean] || adminMap[phrase];
+      if (adminHash) {
+        const customSrc = audioFiles[`audio/phrases/${adminHash}`];
+        if (customSrc) return customSrc;
+      }
+    } catch {}
+    return null;
+  } catch {
+    return null;
+  }
+};
+
 export const playPhraseAudio = (phrase: string, isMuted = false) => {
   if (isMuted) return;
-  const url = getPhraseAudioUrl(phrase);
+  // Check for custom recorded audio first
+  const customSrc = getCustomPhraseAudio(phrase);
+  const url = customSrc || getPhraseAudioUrl(phrase);
   if (!url) return;
   try {
     if (currentPhraseAudio) currentPhraseAudio.pause();
