@@ -6,8 +6,8 @@ import Mascot from "@/components/Mascot/Mascot";
 import Confetti from "@/components/UI/Confetti";
 import { Home } from "lucide-react";
 import { LevelData } from "@/types";
-import { getPhrase } from "@/data/phrases";
-import { useState } from "react";
+import { getPhrase, playPhraseAudio } from "@/data/phrases";
+import { useState, useEffect } from "react";
 
 interface LevelCompleteScreenProps {
   level: LevelData;
@@ -18,6 +18,11 @@ const LevelCompleteScreen = ({ level, showConfetti }: LevelCompleteScreenProps) 
   const navigate = useNavigate();
   const totalStars = useGameStore.getState().getLevelStars(level.id);
   const [phrase] = useState(() => getPhrase("levelComplete"));
+  const isMuted = useGameStore((s) => s.isMuted);
+
+  useEffect(() => {
+    playPhraseAudio(phrase, isMuted);
+  }, [phrase, isMuted]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4 gap-6">

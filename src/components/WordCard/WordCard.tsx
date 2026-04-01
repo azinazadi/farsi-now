@@ -14,7 +14,7 @@ import WordDisplay from "@/components/WordCard/WordDisplay";
 import LevelCompleteScreen from "@/components/WordCard/LevelCompleteScreen";
 import { MascotMood } from "@/types";
 import { ArrowRight } from "lucide-react";
-import { getScorePhrase } from "@/data/phrases";
+import { getScorePhrase, playPhraseAudio } from "@/data/phrases";
 import { toast } from "sonner";
 
 const WordCard = () => {
@@ -62,8 +62,10 @@ const WordCard = () => {
       setLastStars(stars);
       setShowResult(true);
 
-      // Show phrase toast
-      toast(getScorePhrase(stars), { duration: 3000 });
+      // Show phrase toast + speak it
+      const phrase = getScorePhrase(stars);
+      toast(phrase, { duration: 3000 });
+      playPhraseAudio(phrase, useGameStore.getState().isMuted);
 
       if (stars >= 1) {
         completeWord(level.id, word.word, stars, overlap);

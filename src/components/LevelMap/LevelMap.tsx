@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { levels } from "@/data/levels";
 import { useGameStore } from "@/store/gameStore";
-import { getPhrase } from "@/data/phrases";
+import { getPhrase, playPhraseAudio } from "@/data/phrases";
 import StarsDisplay from "@/components/UI/StarsDisplay";
 import XPBar from "@/components/UI/XPBar";
 import Mascot from "@/components/Mascot/Mascot";
@@ -27,13 +27,16 @@ const LevelMap = () => {
     useGameStore();
   const [greeting] = useState(() => getPhrase("greeting"));
 
-  // Show greeting toast on mount
+  // Show greeting toast + audio on mount
   useEffect(() => {
     toast(greeting, { duration: 3000 });
-  }, [greeting]);
+    playPhraseAudio(greeting, isMuted);
+  }, [greeting, isMuted]);
 
   const handleLockedClick = () => {
-    toast(getPhrase("lockedLevel"), { duration: 2500 });
+    const phrase = getPhrase("lockedLevel");
+    toast(phrase, { duration: 2500 });
+    playPhraseAudio(phrase, isMuted);
   };
 
   return (
