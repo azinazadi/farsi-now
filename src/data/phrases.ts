@@ -441,7 +441,9 @@ const normalizedExactPhraseAudioMap: Record<string, string> = Object.fromEntries
   Object.entries(exactPhraseAudioMap).map(([key, hash]) => [normalizePhraseText(key), hash])
 );
 
-const exactPhraseAudioEntries = Object.entries(normalizedExactPhraseAudioMap)
+const exactPhraseAudioEntries: Array<{ searchText: string; url: string }> = Object.entries(
+  normalizedExactPhraseAudioMap
+)
   .map(([text, hash]) => ({
     searchText: sanitizePhraseForSpeech(text),
     url: `/assets/audio/phrases/${hash}.mp3`,
