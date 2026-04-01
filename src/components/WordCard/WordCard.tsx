@@ -14,7 +14,7 @@ import WordDisplay from "@/components/WordCard/WordDisplay";
 import LevelCompleteScreen from "@/components/WordCard/LevelCompleteScreen";
 import { MascotMood } from "@/types";
 import { ArrowRight } from "lucide-react";
-import { getScorePhrase } from "@/data/phrases";
+import { getScorePhrase, playPhraseAudio } from "@/data/phrases";
 import { toast } from "sonner";
 
 const WordCard = () => {
