@@ -387,7 +387,7 @@ const getCustomPhraseAudio = (phrase: string): string | null => {
       const adminMap = JSON.parse(localStorage.getItem("admin-audio-map") || "{}");
       const adminHash = adminMap[clean] || adminMap[phrase];
       if (adminHash) {
-        const customSrc = audioFiles[\`audio/phrases/\${adminHash}\`];
+        const customSrc = audioFiles[`audio/phrases/${adminHash}`];
         if (customSrc) return customSrc;
       }
     } catch {}
