@@ -13,13 +13,13 @@ const StarsDisplay = ({ stars, maxStars = 3, size = 32, animated = false }: Star
     <div className="flex gap-1 ltr">
       {Array.from({ length: maxStars }).map((_, i) => {
         const filled = i < stars;
-        const StarWrapper = animated ? motion.div : "div";
-        const animProps = animated && filled
-          ? { initial: { scale: 0, rotate: -45 }, animate: { scale: 1, rotate: 0 }, transition: { delay: i * 0.15, type: "spring" } }
-          : {};
-
         return (
-          <StarWrapper key={i} {...animProps}>
+          <motion.div
+            key={i}
+            initial={animated && filled ? { scale: 0, rotate: -45 } : undefined}
+            animate={animated && filled ? { scale: 1, rotate: 0 } : undefined}
+            transition={animated && filled ? { delay: i * 0.15, type: "spring" as const } : undefined}
+          >
             <Star
               size={size}
               className={`transition-colors duration-300 ${
@@ -28,7 +28,7 @@ const StarsDisplay = ({ stars, maxStars = 3, size = 32, animated = false }: Star
                   : "fill-star-empty text-star-empty"
               }`}
             />
-          </StarWrapper>
+          </motion.div>
         );
       })}
     </div>

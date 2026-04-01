@@ -14,7 +14,7 @@ const moodEmojis: Record<MascotMood, string> = {
   dancing: "💃",
 };
 
-const moodAnimations: Record<MascotMood, object> = {
+const moodAnimations: Record<MascotMood, any> = {
   idle: { y: [0, -5, 0], transition: { repeat: Infinity, duration: 2 } },
   happy: { rotate: [0, -10, 10, 0], scale: [1, 1.1, 1], transition: { repeat: Infinity, duration: 0.6 } },
   sad: { y: [0, 3, 0], transition: { repeat: Infinity, duration: 1.5 } },

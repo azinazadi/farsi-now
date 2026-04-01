@@ -20,7 +20,7 @@ export const useDrawing = (canvasRef: React.RefObject<HTMLCanvasElement | null>)
         return {
           x: (touch.clientX - rect.left) * scaleX,
           y: (touch.clientY - rect.top) * scaleY,
-          pressure: touch.force || 0.5,
+          pressure: (touch as any).force || 0.5,
         };
       }
       return {
