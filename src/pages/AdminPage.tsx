@@ -16,6 +16,23 @@ const AUDIO_MAP_STORAGE_KEY = "admin-audio-map";
 const AUDIO_FILES_STORAGE_KEY = "admin-audio-files";
 const PHONETICS_STORAGE_KEY = "admin-phonetics";
 
+/** Strip emoji helper (same as phrases.ts) */
+const stripEmoji = (text: string): string =>
+  text.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FEFF}]|[\u200D\uFE0F]|[😊😍😂😈😜😋🤗⚡🌟🌸🚀🐥🐶💪🎉🔥👏🛡️🌠📱☕🗝️🔑💃🍰🧠🖼️😎🦇😄]/gu, '').trim();
+
+/** Build default phonetics: every phrase gets its clean text as default phonetic */
+const buildDefaultPhonetics = (): Record<string, string> => {
+  const map: Record<string, string> = {};
+  const allPhrases = Object.values(defaultPhrases).flat();
+  for (const phrase of allPhrases) {
+    const clean = stripEmoji(phrase);
+    map[clean] = clean;
+  }
+  return map;
+};
+
+const defaultPhonetics = buildDefaultPhonetics();
+
 // Default audio map from phrases.ts (extracted)
 const defaultAudioMap: Record<string, string> = {
   "سلام! چطوری؟": "a3f5bdccd3bd",
@@ -67,9 +84,9 @@ const AdminPage = () => {
   const [phonetics, setPhonetics] = useState<Record<string, string>>(() => {
     try {
       const saved = localStorage.getItem(PHONETICS_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : {};
+      return saved ? { ...defaultPhonetics, ...JSON.parse(saved) } : { ...defaultPhonetics };
     } catch {
-      return {};
+      return { ...defaultPhonetics };
     }
   });
 
