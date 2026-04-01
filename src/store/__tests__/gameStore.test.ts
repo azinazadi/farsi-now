@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { useGameStore } from "../gameStore";
+import { DEBUG } from "@/config/debug";
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -23,7 +24,8 @@ describe("gameStore", () => {
     expect(useGameStore.getState().isLevelUnlocked(1)).toBe(true);
   });
 
-  it("initializes with other levels locked", () => {
+  it("initializes with other levels locked (when debug off)", () => {
+    if (DEBUG.UNLOCK_ALL_LEVELS) return; // skip when debug flag is on
     expect(useGameStore.getState().isLevelUnlocked(2)).toBe(false);
     expect(useGameStore.getState().isLevelUnlocked(8)).toBe(false);
   });
@@ -59,7 +61,8 @@ describe("gameStore", () => {
     expect(useGameStore.getState().isLevelUnlocked(2)).toBe(true);
   });
 
-  it("does NOT unlock next level with insufficient stars", () => {
+  it("does NOT unlock next level with insufficient stars (when debug off)", () => {
+    if (DEBUG.UNLOCK_ALL_LEVELS) return; // skip when debug flag is on
     useGameStore.getState().completeWord(1, "سلام", 3, 90);
     useGameStore.getState().completeWord(1, "ممنون", 3, 90);
     // 6 stars < 12

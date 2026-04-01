@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { GameState, LevelProgress, WordProgress } from "@/types";
 import { levels } from "@/data/levels";
 import { loadProgress, saveProgress } from "@/services/progress";
+import { DEBUG } from "@/config/debug";
 
 const STARS_TO_UNLOCK = 12; // stars needed from prev level to unlock next
 
@@ -13,7 +14,7 @@ const createInitialLevels = (): Record<number, LevelProgress> => {
       words[w.word] = { stars: 0, attempts: 0, bestOverlap: 0, completed: false };
     });
     result[level.id] = {
-      unlocked: i === 0,
+      unlocked: i === 0 || DEBUG.UNLOCK_ALL_LEVELS,
       words,
       totalStars: 0,
     };
