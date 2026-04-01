@@ -128,6 +128,12 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
   loadSavedProgress: () => {
     const saved = loadProgress();
     if (saved) {
+      // Re-apply debug unlock flag over saved progress
+      if (DEBUG.UNLOCK_ALL_LEVELS) {
+        Object.keys(saved.levels).forEach((key) => {
+          saved.levels[Number(key)].unlocked = true;
+        });
+      }
       set(saved);
     }
   },
