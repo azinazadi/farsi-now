@@ -25,14 +25,14 @@ export const useAudio = () => {
 
   const playWordAudio = useCallback(
     (word: string) => {
-      play(`/assets/audio/${word}.mp3`);
+      play(`/assets/audio/${encodeURIComponent(word)}.mp3`);
     },
     [play]
   );
 
   const playLetterAudio = useCallback(
     (letter: string) => {
-      play(`/assets/audio/letters/${letter}.mp3`);
+      play(`/assets/audio/letters/${encodeURIComponent(letter)}.mp3`);
     },
     [play]
   );
