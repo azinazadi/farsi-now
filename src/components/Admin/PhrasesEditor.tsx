@@ -16,6 +16,8 @@ interface PhrasesEditorProps {
   audioMap: Record<string, string>;
   onAudioMapChange: (map: Record<string, string>) => void;
   onAudioSave: (blob: Blob, path: string) => void;
+  phonetics: Record<string, string>;
+  onPhoneticsChange: (phonetics: Record<string, string>) => void;
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -28,7 +30,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   lockedLevel: "🔒 Locked Level",
 };
 
-const PhrasesEditor = ({ phrases, onPhrasesChange, audioMap, onAudioMapChange, onAudioSave }: PhrasesEditorProps) => {
+const PhrasesEditor = ({ phrases, onPhrasesChange, audioMap, onAudioMapChange, onAudioSave, phonetics, onPhoneticsChange }: PhrasesEditorProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const categories = Object.keys(phrases);
@@ -61,8 +63,20 @@ const PhrasesEditor = ({ phrases, onPhrasesChange, audioMap, onAudioMapChange, o
     return hash ? `/assets/audio/phrases/${hash}.mp3` : undefined;
   };
 
+  const updatePhonetic = (phrase: string, phonetic: string) => {
+    const clean = stripEmoji(phrase);
+    const updated = { ...phonetics, [clean]: phonetic };
+    if (!phonetic) delete updated[clean];
+    onPhoneticsChange(updated);
+  };
+
+  const getPhonetic = (phrase: string): string => {
+    const clean = stripEmoji(phrase);
+    return phonetics[clean] || "";
+  };
+
   const exportPhrases = () => {
-    const blob = new Blob([JSON.stringify({ phrases, audioMap }, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify({ phrases, audioMap, phonetics }, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -81,6 +95,7 @@ const PhrasesEditor = ({ phrases, onPhrasesChange, audioMap, onAudioMapChange, o
         const data = JSON.parse(ev.target?.result as string);
         if (data.phrases) onPhrasesChange(data.phrases);
         if (data.audioMap) onAudioMapChange(data.audioMap);
+        if (data.phonetics) onPhoneticsChange(data.phonetics);
         toast.success("Phrases imported!");
       } catch {
         toast.error("Invalid JSON file");
@@ -127,10 +142,20 @@ const PhrasesEditor = ({ phrases, onPhrasesChange, audioMap, onAudioMapChange, o
                       onChange={(e) => updatePhrase(category, idx, e.target.value)}
                       dir="rtl"
                       className="flex-1"
+                      placeholder="Phrase text"
                     />
                     <Button size="sm" variant="ghost" className="text-destructive" onClick={() => removePhrase(category, idx)}>
                       <Trash2 className="h-3 w-3" />
                     </Button>
+                  </div>
+                  <div className="flex gap-2 mb-2">
+                    <Input
+                      value={getPhonetic(phrase)}
+                      onChange={(e) => updatePhonetic(phrase, e.target.value)}
+                      dir="rtl"
+                      className="flex-1 text-sm"
+                      placeholder="تلفظ (pronunciation guide for TTS) — leave empty to use original text"
+                    />
                   </div>
                   <AudioRecorderButton
                     label="Audio"
