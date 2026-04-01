@@ -56,7 +56,7 @@ describe("Phrase audio mapping", () => {
     expect(getPhraseAudioUrl("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️")).toBeNull();
     expect(getPhraseAudioSequenceUrls("سلام! چطوری؟ دلم برات تنگ شده بود 😄❤️")).toEqual([
       "/assets/audio/phrases/a3f5bdccd3bd.mp3",
-      "/assets/audio/phrases/2af08e961897.mp3",
+      "/assets/audio/phrases/2af08e0d6cd5.mp3",
     ]);
   });
 

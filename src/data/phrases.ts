@@ -505,8 +505,8 @@ export const getPhraseAudioSequenceUrls = (phrase: string): string[] => {
     if (!bestMatch || bestIndex === -1) break;
 
     matchedSegments.push(bestMatch);
-    matchedChars += bestMatch.text.replace(/\s+/g, "").length;
-    cursor = bestIndex + bestMatch.text.length;
+    matchedChars += bestMatch.searchText.replace(/\s+/g, "").length;
+    cursor = bestIndex + bestMatch.searchText.length;
   }
 
   if (matchedSegments.length === 0) return [];
