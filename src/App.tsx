@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import LevelPage from "./pages/LevelPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AudioTestPage from "./pages/AudioTestPage.tsx";
 
 const queryClient = new QueryClient();
 
