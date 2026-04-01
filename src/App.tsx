@@ -21,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/level/:levelId" element={<LevelPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/audio-test" element={<AudioTestPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
