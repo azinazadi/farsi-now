@@ -110,6 +110,7 @@ const AdminPage = () => {
       levels,
       phrases,
       audioMap,
+      phonetics,
       exportDate: new Date().toISOString(),
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
