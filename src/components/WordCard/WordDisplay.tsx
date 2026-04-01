@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Volume2 } from "lucide-react";
 import { WordData } from "@/types";
+import { getAudioAssetStem } from "@/utils/audioPaths";
 
 interface WordDisplayProps {
   word: WordData;
