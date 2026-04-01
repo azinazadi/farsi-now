@@ -84,9 +84,9 @@ const AdminPage = () => {
   const [phonetics, setPhonetics] = useState<Record<string, string>>(() => {
     try {
       const saved = localStorage.getItem(PHONETICS_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : {};
+      return saved ? { ...defaultPhonetics, ...JSON.parse(saved) } : { ...defaultPhonetics };
     } catch {
-      return {};
+      return { ...defaultPhonetics };
     }
   });
 
