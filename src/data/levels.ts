@@ -27,12 +27,12 @@ export const levels: LevelData[] = [
     words: [
       { word: "مامان", english: "mom", transliteration: "maaman" },
       { word: "بابا", english: "dad", transliteration: "baabaa" },
-      { word: "داداش", english: "brother", transliteration: "daadaash" },
-      { word: "آبجی", english: "sister", transliteration: "aabji" },
-      { word: "ننه", english: "grandma", transliteration: "naneh" },
+      { word: "برادر", english: "brother", transliteration: "baraadar" },
+      { word: "خواهر", english: "sister", transliteration: "khaahar" },
+      { word: "مامان‌بزرگ", english: "grandma", transliteration: "maamanbozorg" },
       { word: "بابابزرگ", english: "grandpa", transliteration: "baababozorg" },
-      { word: "عمه", english: "aunt", transliteration: "ammeh" },
-      { word: "دایی", english: "uncle", transliteration: "daayi" },
+      { word: "خاله", english: "aunt", transliteration: "khaleh" },
+      { word: "عمو", english: "uncle", transliteration: "amoo" },
     ],
   },
   {

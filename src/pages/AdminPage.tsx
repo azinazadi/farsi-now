@@ -16,6 +16,14 @@ const AUDIO_MAP_STORAGE_KEY = "admin-audio-map";
 const AUDIO_FILES_STORAGE_KEY = "admin-audio-files";
 const PHONETICS_STORAGE_KEY = "admin-phonetics";
 
+const toDataUrl = (blob: Blob): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+
 /** Strip emoji helper (same as phrases.ts) */
 const stripEmoji = (text: string): string =>
   text.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FEFF}]|[\u200D\uFE0F]|[😊😍😂😈😜😋🤗⚡🌟🌸🚀🐥🐶💪🎉🔥👏🛡️🌠📱☕🗝️🔑💃🍰🧠🖼️😎🦇😄]/gu, '').trim();
@@ -186,13 +194,16 @@ const AdminPage = () => {
 
   const handleAudioSave = async (blob: Blob, path: string) => {
     try {
-      const { uploadAudio } = await import("@/services/audioStorage");
-      const url = await uploadAudio(blob, path);
-      toast.success(`Audio uploaded: ${path.split("/").pop()}`);
-      console.log("Uploaded to:", url);
+      const normalizedPath = path.endsWith(".mp3") ? path.slice(0, -4) : path;
+      const src = await toDataUrl(blob);
+      const saved = localStorage.getItem(AUDIO_FILES_STORAGE_KEY);
+      const audioFiles = saved ? JSON.parse(saved) as Record<string, string> : {};
+      audioFiles[normalizedPath] = src;
+      localStorage.setItem(AUDIO_FILES_STORAGE_KEY, JSON.stringify(audioFiles));
+      toast.success(`Audio saved locally: ${normalizedPath.split("/").pop()}.mp3`);
     } catch (err) {
-      console.error("Upload failed:", err);
-      toast.error(`Failed to upload audio: ${err instanceof Error ? err.message : "Unknown error"}`);
+      console.error("Audio save failed:", err);
+      toast.error(`Failed to save audio: ${err instanceof Error ? err.message : "Unknown error"}`);
     }
   };
 

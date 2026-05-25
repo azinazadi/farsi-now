@@ -32,6 +32,39 @@ python generate_assets.py
 
 For image generation, set `STABILITY_API_KEY` or `REPLICATE_API_TOKEN` env var.
 
+(`generate_assets.py` is the legacy full-regeneration path and uses Edge TTS.)
+
+### Incremental Audio Sync (Changed Files Only)
+
+When you edit levels/words, regenerate only missing/changed word+letter audio:
+
+```bash
+# put keys in .env (recommended) or export in shell
+# ELEVENLABS_API_KEY=...
+pnpm audio:sync:dry   # preview changes
+pnpm audio:sync       # generate only missing items (never regenerate existing)
+```
+
+Optional:
+
+- `pnpm audio:sync:force` - regenerate all tracked word/letter audio
+- `pnpm audio:sync:clean` - remove stale files tracked by the sync manifest
+
+### OpenAI Image Sync (Missing Files Only)
+
+Generate only missing word images from `src/data/levels.ts`:
+
+```bash
+# put keys in .env (recommended) or export in shell
+# OPENAI_API_KEY=...
+pnpm images:sync:dry
+pnpm images:sync
+```
+
+Optional:
+
+- `pnpm images:sync:force` - regenerate all word images
+
 ## Architecture
 
 ```

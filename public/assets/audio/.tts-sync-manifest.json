@@ -1,0 +1,590 @@
+{
+  "version": 1,
+  "voice": "fa-IR-DilaraNeural",
+  "levels_file": "src/data/levels.ts",
+  "translit_file": "src/utils/transliteration.ts",
+  "items": {
+    "word::سلام": {
+      "kind": "word",
+      "text": "سلام",
+      "rel_path": "u0633-u0644-u0627-u0645.mp3",
+      "hash": "b4f5d91d1cdf5346b59419f5f4835a3cf21eaddfe9730f4cda89b3c5e52f3654"
+    },
+    "word::ممنون": {
+      "kind": "word",
+      "text": "ممنون",
+      "rel_path": "u0645-u0645-u0646-u0648-u0646.mp3",
+      "hash": "d78d09071e74720bdcae4315d7e96ede7cb411b5b6cdd76fd223e64d79b8f0ec"
+    },
+    "word::خوبی": {
+      "kind": "word",
+      "text": "خوبی",
+      "rel_path": "u062e-u0648-u0628-u06cc.mp3",
+      "hash": "ce276e1bf6677cae409161917e207584bd917a4770f48c2a335200bc4cc3d8a8"
+    },
+    "word::بیا": {
+      "kind": "word",
+      "text": "بیا",
+      "rel_path": "u0628-u06cc-u0627.mp3",
+      "hash": "373f5427561f72587d223d8ba8785f6e98989846b748940a097c313ecaaab576"
+    },
+    "word::برو": {
+      "kind": "word",
+      "text": "برو",
+      "rel_path": "u0628-u0631-u0648.mp3",
+      "hash": "c5b5f2bb19409af8d580aa42f48b6e93c08961e37fa05db75f822fcf87fc913b"
+    },
+    "word::آره": {
+      "kind": "word",
+      "text": "آره",
+      "rel_path": "u0622-u0631-u0647.mp3",
+      "hash": "608d8448e400a30a90e6312cb41091c10d2b85e82f98bd006125240e4a786bed"
+    },
+    "word::نه": {
+      "kind": "word",
+      "text": "نه",
+      "rel_path": "u0646-u0647.mp3",
+      "hash": "2a4b6ef780ae709c33c61dd9c00423f2278092e9c0ba59d04d0ffd5b2fa0ba02"
+    },
+    "word::باشه": {
+      "kind": "word",
+      "text": "باشه",
+      "rel_path": "u0628-u0627-u0634-u0647.mp3",
+      "hash": "32244194945f288d02af92acd571565da0d1fadb585370b5347d80ac82c4bbf9"
+    },
+    "word::مامان": {
+      "kind": "word",
+      "text": "مامان",
+      "rel_path": "u0645-u0627-u0645-u0627-u0646.mp3",
+      "hash": "3cd61ef93c421358085b75ef411cbb172d435d9e9f6a2fa6ca85661507646c9a"
+    },
+    "word::بابا": {
+      "kind": "word",
+      "text": "بابا",
+      "rel_path": "u0628-u0627-u0628-u0627.mp3",
+      "hash": "dafbdfa39b6b2eb202e63a1317a53a2ae0161deeb81468299bae97447d47b49e"
+    },
+    "word::داداش": {
+      "kind": "word",
+      "text": "داداش",
+      "rel_path": "u062f-u0627-u062f-u0627-u0634.mp3",
+      "hash": "e2455b5caddd43d05a7930ed9f21e520918624e31ccd56ea0a13a4a6ed483768"
+    },
+    "word::آبجی": {
+      "kind": "word",
+      "text": "آبجی",
+      "rel_path": "u0622-u0628-u062c-u06cc.mp3",
+      "hash": "c2365f907f0b59fc2021f9f97b2c2715f9ab4d45f020b5a71be1f8bdc89f716e"
+    },
+    "word::ننه": {
+      "kind": "word",
+      "text": "ننه",
+      "rel_path": "u0646-u0646-u0647.mp3",
+      "hash": "c1213245ff6947cd9c3061d205e5d5772b90b4c83fdf823921f74a5c5b855ed1"
+    },
+    "word::بابابزرگ": {
+      "kind": "word",
+      "text": "بابابزرگ",
+      "rel_path": "u0628-u0627-u0628-u0627-u0628-u0632-u0631-u06af.mp3",
+      "hash": "17c058fd668e0fa704be80404b2637c01b42a693965dce73a32771924174169f"
+    },
+    "word::عمه": {
+      "kind": "word",
+      "text": "عمه",
+      "rel_path": "u0639-u0645-u0647.mp3",
+      "hash": "e84d646d2f4ee4f775295f84dbb41879788902a85239431cac6e584bafc0beca"
+    },
+    "word::دایی": {
+      "kind": "word",
+      "text": "دایی",
+      "rel_path": "u062f-u0627-u06cc-u06cc.mp3",
+      "hash": "63a55a3186afd720fd6a44bcaeda5e28b04c97c6100783c0c71b3c8ed67e4a9e"
+    },
+    "word::گربه": {
+      "kind": "word",
+      "text": "گربه",
+      "rel_path": "u06af-u0631-u0628-u0647.mp3",
+      "hash": "fac01b59003735c1d453cb5e147ff02cb1aa24df0e6dc9c559bc8881ac1def3b"
+    },
+    "word::سگ": {
+      "kind": "word",
+      "text": "سگ",
+      "rel_path": "u0633-u06af.mp3",
+      "hash": "9ba7b719e0c7967bea1b1a6ebe0f8dca352acee667ddaf11e37a1da0bf63b179"
+    },
+    "word::مرغ": {
+      "kind": "word",
+      "text": "مرغ",
+      "rel_path": "u0645-u0631-u063a.mp3",
+      "hash": "9d1ef007f871359ad188dd71da3a0f9b342582de6c475a2cb04b57e9be1b94ee"
+    },
+    "word::اسب": {
+      "kind": "word",
+      "text": "اسب",
+      "rel_path": "u0627-u0633-u0628.mp3",
+      "hash": "f8363e12fdd84ebd658b1cbbd816c2ee663be716a617c5d5e2c3b5594e247c54"
+    },
+    "word::ماهی": {
+      "kind": "word",
+      "text": "ماهی",
+      "rel_path": "u0645-u0627-u0647-u06cc.mp3",
+      "hash": "aaddee82218bbd1a2a5fb3af0ed6cab6f2b065cab5eda95bf2cad4cd415d4240"
+    },
+    "word::خرگوش": {
+      "kind": "word",
+      "text": "خرگوش",
+      "rel_path": "u062e-u0631-u06af-u0648-u0634.mp3",
+      "hash": "948cd5df5011bb6416636a197bcfa3e5b47b0d8930f1fb5fd686369c7775bda1"
+    },
+    "word::موش": {
+      "kind": "word",
+      "text": "موش",
+      "rel_path": "u0645-u0648-u0634.mp3",
+      "hash": "7b3ef951ff5782f8337615be37b71e9edb46d4ae7f22b016569c504c234b46c8"
+    },
+    "word::خرس": {
+      "kind": "word",
+      "text": "خرس",
+      "rel_path": "u062e-u0631-u0633.mp3",
+      "hash": "3de349f86d0d6c34997d5f39c0481f36b423bae705deed2c0fced29aeae0143a"
+    },
+    "word::آب": {
+      "kind": "word",
+      "text": "آب",
+      "rel_path": "u0622-u0628.mp3",
+      "hash": "535b9dd9a229a2976e3d8c046ec44c5975b037b39cd21b2ad944188995828469"
+    },
+    "word::درخت": {
+      "kind": "word",
+      "text": "درخت",
+      "rel_path": "u062f-u0631-u062e-u062a.mp3",
+      "hash": "04fe525f53f6e09b2ad0ceddafcffe01e43c0e351910bfb3c14e20a320e94562"
+    },
+    "word::گل": {
+      "kind": "word",
+      "text": "گل",
+      "rel_path": "u06af-u0644.mp3",
+      "hash": "3aa3d70e92300d96216fcfc4c29865be96e7df61981e66e63a24669330a1d12b"
+    },
+    "word::خاک": {
+      "kind": "word",
+      "text": "خاک",
+      "rel_path": "u062e-u0627-u06a9.mp3",
+      "hash": "b1e1435a42174fee4ff31403a6979ef6c8316273b9e1e09e2dd6711f5636803f"
+    },
+    "word::آفتاب": {
+      "kind": "word",
+      "text": "آفتاب",
+      "rel_path": "u0622-u0641-u062a-u0627-u0628.mp3",
+      "hash": "cd12a0eaf271afc15f486a7d212090c0ec20e905c2343e83ceebc2a9304d6676"
+    },
+    "word::ابر": {
+      "kind": "word",
+      "text": "ابر",
+      "rel_path": "u0627-u0628-u0631.mp3",
+      "hash": "244f75e94769c17c00698e586da0ada98c29e8d5d66df798289e109fc0bb6ebc"
+    },
+    "word::بارون": {
+      "kind": "word",
+      "text": "بارون",
+      "rel_path": "u0628-u0627-u0631-u0648-u0646.mp3",
+      "hash": "c9304fdef235c4fca949990f4afbf29cc1bb6ae0742698e674739daa8dad54a6"
+    },
+    "word::سنگ": {
+      "kind": "word",
+      "text": "سنگ",
+      "rel_path": "u0633-u0646-u06af.mp3",
+      "hash": "f6f587bca6c6d0a84fee8cae8a610acdecf0a9f0a9451a95c10e6723a7dad5b4"
+    },
+    "word::نون": {
+      "kind": "word",
+      "text": "نون",
+      "rel_path": "u0646-u0648-u0646.mp3",
+      "hash": "d1cc582cfff9d18c19b40356546f156106869288609be572ac2d1e487e663ed9"
+    },
+    "word::شیر": {
+      "kind": "word",
+      "text": "شیر",
+      "rel_path": "u0634-u06cc-u0631.mp3",
+      "hash": "d00e328e6b8977b931d540db9b66b752c9e6786749ff0a368e26d3468c4e49dc"
+    },
+    "word::برنج": {
+      "kind": "word",
+      "text": "برنج",
+      "rel_path": "u0628-u0631-u0646-u062c.mp3",
+      "hash": "f80e77ad6812d9f0e7945554cc8d76442244eda86e231d6428b6fbb55edb6498"
+    },
+    "word::چایی": {
+      "kind": "word",
+      "text": "چایی",
+      "rel_path": "u0686-u0627-u06cc-u06cc.mp3",
+      "hash": "69dd8aa1d2746e897aa3f72d3d3c258c2f49fcd27e7090d66b7e535ce7732948"
+    },
+    "word::تخم‌مرغ": {
+      "kind": "word",
+      "text": "تخم‌مرغ",
+      "rel_path": "u062a-u062e-u0645-u200c-u0645-u0631-u063a.mp3",
+      "hash": "fb7ea4353dccb6c27cc7d196aec1ecf5e6c1f45bd7f34e5bdcb52c4e56ac0ce1"
+    },
+    "word::پنیر": {
+      "kind": "word",
+      "text": "پنیر",
+      "rel_path": "u067e-u0646-u06cc-u0631.mp3",
+      "hash": "319984e79072e2c94a41573ed2379cf1ffa5ad4e73c2bf1577467d86519557b1"
+    },
+    "word::سیب": {
+      "kind": "word",
+      "text": "سیب",
+      "rel_path": "u0633-u06cc-u0628.mp3",
+      "hash": "164cb20f07b1cb7bbe3ddf84aa1df2058077983c7a64158cbbd515d12bd60c04"
+    },
+    "word::موز": {
+      "kind": "word",
+      "text": "موز",
+      "rel_path": "u0645-u0648-u0632.mp3",
+      "hash": "a12228e75b94e30416b2acfd6c62b8de44fc632117ed09a3b41821162a36f3ee"
+    },
+    "word::قرمز": {
+      "kind": "word",
+      "text": "قرمز",
+      "rel_path": "u0642-u0631-u0645-u0632.mp3",
+      "hash": "b20b2a83d82ac630253df4e762106b940ff6d9b2d2884488d4c92668c9906649"
+    },
+    "word::آبی": {
+      "kind": "word",
+      "text": "آبی",
+      "rel_path": "u0622-u0628-u06cc.mp3",
+      "hash": "542eb29c96a14db8cc871cbbd9c5c5d254677d01760c6113cdcfb245bbff0223"
+    },
+    "word::زرد": {
+      "kind": "word",
+      "text": "زرد",
+      "rel_path": "u0632-u0631-u062f.mp3",
+      "hash": "3eda3bed2532b7b8cd702c196ec5596c321fdbb08435cdc990c5d5896d944980"
+    },
+    "word::سبز": {
+      "kind": "word",
+      "text": "سبز",
+      "rel_path": "u0633-u0628-u0632.mp3",
+      "hash": "1674a8a272f350278e2c0f17e470b4dc64556efcec20c89d28dadd2195b703ac"
+    },
+    "word::سفید": {
+      "kind": "word",
+      "text": "سفید",
+      "rel_path": "u0633-u0641-u06cc-u062f.mp3",
+      "hash": "a16aefdf3f4869a22a8f90e9f567834b6666fffdb4b4f0b89c86ceba6611945e"
+    },
+    "word::مشکی": {
+      "kind": "word",
+      "text": "مشکی",
+      "rel_path": "u0645-u0634-u06a9-u06cc.mp3",
+      "hash": "6037a7f6beca87a3b0ec8fbb4c3b0492948ad127d4970057993725d86376a491"
+    },
+    "word::صورتی": {
+      "kind": "word",
+      "text": "صورتی",
+      "rel_path": "u0635-u0648-u0631-u062a-u06cc.mp3",
+      "hash": "a151546b960f4e48db26baa220ff310e2c8f90693541976b5e6ccd638732eafe"
+    },
+    "word::نارنجی": {
+      "kind": "word",
+      "text": "نارنجی",
+      "rel_path": "u0646-u0627-u0631-u0646-u062c-u06cc.mp3",
+      "hash": "2b9d1713b8775786c0be2ecdc6db4dcc4e78b328ecd9ec66f8af9b65d956fe4a"
+    },
+    "word::چشم": {
+      "kind": "word",
+      "text": "چشم",
+      "rel_path": "u0686-u0634-u0645.mp3",
+      "hash": "594cbc4fb4bc6167a9ef33cc602e1a4e5b8934fbbcdec6b6737b7be5e7b4cc2b"
+    },
+    "word::دست": {
+      "kind": "word",
+      "text": "دست",
+      "rel_path": "u062f-u0633-u062a.mp3",
+      "hash": "10d8c08ed4cf658016ad71a47815c8ed1286ce46c5c289a663dd056a5c44c887"
+    },
+    "word::پا": {
+      "kind": "word",
+      "text": "پا",
+      "rel_path": "u067e-u0627.mp3",
+      "hash": "7fa0abd99d92e9bc21cf41ef9e3213b75188a43ae366b20c364c1a28da7207fa"
+    },
+    "word::دهن": {
+      "kind": "word",
+      "text": "دهن",
+      "rel_path": "u062f-u0647-u0646.mp3",
+      "hash": "b4d7991da85416e35bb2487a3a06e09d49cf235885aa6e7d7186fe0b6f5bc604"
+    },
+    "word::گوش": {
+      "kind": "word",
+      "text": "گوش",
+      "rel_path": "u06af-u0648-u0634.mp3",
+      "hash": "62266f06ad324ff07fac01eb7a11594d26290db46e7c17a0c4b316e7b0fe9d41"
+    },
+    "word::بینی": {
+      "kind": "word",
+      "text": "بینی",
+      "rel_path": "u0628-u06cc-u0646-u06cc.mp3",
+      "hash": "306bc3a16e151d0ad5ae35269b76adde712e3fbf64f0aa10156889beeb040f52"
+    },
+    "word::سر": {
+      "kind": "word",
+      "text": "سر",
+      "rel_path": "u0633-u0631.mp3",
+      "hash": "2a62813ab147efd323a8c0bcc42bb8a68677689e2a061cee5fa33935e9fdca8a"
+    },
+    "word::شکم": {
+      "kind": "word",
+      "text": "شکم",
+      "rel_path": "u0634-u06a9-u0645.mp3",
+      "hash": "e50923ec9a14b7d6b996b75ab5bce10917471b84d25ca183fa86f30a63457c6d"
+    },
+    "word::یه": {
+      "kind": "word",
+      "text": "یه",
+      "rel_path": "u06cc-u0647.mp3",
+      "hash": "4f882cd3e6550e96c83ade2bbac263f5116995087858b19d691c0f7f0830bd0a"
+    },
+    "word::دو": {
+      "kind": "word",
+      "text": "دو",
+      "rel_path": "u062f-u0648.mp3",
+      "hash": "5944b3bfb81c44e2854313f0128bd13ab94e258fb4722b2f6971fc56f6eeea07"
+    },
+    "word::سه": {
+      "kind": "word",
+      "text": "سه",
+      "rel_path": "u0633-u0647.mp3",
+      "hash": "06317ce4c6cdc66fb9b7f94accbc973008568312e179ac0bc6b17af179e82bb9"
+    },
+    "word::چار": {
+      "kind": "word",
+      "text": "چار",
+      "rel_path": "u0686-u0627-u0631.mp3",
+      "hash": "ccf4b0a10532210054180030ff2c904edbf2bbdbc76d51302ae773624f3c57a5"
+    },
+    "word::پنج": {
+      "kind": "word",
+      "text": "پنج",
+      "rel_path": "u067e-u0646-u062c.mp3",
+      "hash": "41930c52b637eeca9f480d819b6d5fb9ee9ad729efcba2cd5fea07f6aa8eede0"
+    },
+    "word::شش": {
+      "kind": "word",
+      "text": "شش",
+      "rel_path": "u0634-u0634.mp3",
+      "hash": "8a6b056fa1743c667e7cc156f3634938009c064b95147d3b68d56d848ce7eabc"
+    },
+    "word::هفت": {
+      "kind": "word",
+      "text": "هفت",
+      "rel_path": "u0647-u0641-u062a.mp3",
+      "hash": "10a064b2d85d4b7e263320b002585f897ea1ae7d0899d6e99b0dd02230b1a050"
+    },
+    "word::هشت": {
+      "kind": "word",
+      "text": "هشت",
+      "rel_path": "u0647-u0634-u062a.mp3",
+      "hash": "0811254bbcd4c1f76aa590d188730dc6fe498ea46d18da23576c681c1a5374dd"
+    },
+    "letter::ا": {
+      "kind": "letter",
+      "text": "ا",
+      "rel_path": "letters/u0627.mp3",
+      "hash": "42b6f3f3c2111827311dccd82e922fd565b10621f773fb1aebd5f0a319ed4540"
+    },
+    "letter::آ": {
+      "kind": "letter",
+      "text": "آ",
+      "rel_path": "letters/u0622.mp3",
+      "hash": "25d1734f1cfc6a0fbb96484b25e3dfd823e5476f372ca7e86c88cd575513bdf7"
+    },
+    "letter::ب": {
+      "kind": "letter",
+      "text": "ب",
+      "rel_path": "letters/u0628.mp3",
+      "hash": "518d8ed29ca5495cf265ef946dd63e5b1fb0a9225424a53a0a62bfca622f970e"
+    },
+    "letter::پ": {
+      "kind": "letter",
+      "text": "پ",
+      "rel_path": "letters/u067e.mp3",
+      "hash": "33f243ee045e31c607dd4beb35a200a8db656cee7add0a686210cab497bad707"
+    },
+    "letter::ت": {
+      "kind": "letter",
+      "text": "ت",
+      "rel_path": "letters/u062a.mp3",
+      "hash": "23ad9dd7a553fcfc11a2a7bb84e08afefc0e2c02eaad50c8bc91d2c1ef32abc3"
+    },
+    "letter::ث": {
+      "kind": "letter",
+      "text": "ث",
+      "rel_path": "letters/u062b.mp3",
+      "hash": "e9d4aae939b185e9f49001626c8dc758e6c150977eb03582a8a7882247be7ff3"
+    },
+    "letter::ج": {
+      "kind": "letter",
+      "text": "ج",
+      "rel_path": "letters/u062c.mp3",
+      "hash": "3b8789f0d8f7e101a03aa674855ae5b95302e686c37ea7bb7096a7463fceb42f"
+    },
+    "letter::چ": {
+      "kind": "letter",
+      "text": "چ",
+      "rel_path": "letters/u0686.mp3",
+      "hash": "5db52f5ccb765d96d3ae21d754603a191dcd9d2d7dfaa7bd73f110b81352e464"
+    },
+    "letter::ح": {
+      "kind": "letter",
+      "text": "ح",
+      "rel_path": "letters/u062d.mp3",
+      "hash": "fa1be6038d735dfb71ea3987fd6cff2d13a8543b62cbbbe4db3f9a80f384e335"
+    },
+    "letter::خ": {
+      "kind": "letter",
+      "text": "خ",
+      "rel_path": "letters/u062e.mp3",
+      "hash": "97241294a4d1a949c668fd480e17c2a4e2737fe28fdfb4623a817be19ae9bec1"
+    },
+    "letter::د": {
+      "kind": "letter",
+      "text": "د",
+      "rel_path": "letters/u062f.mp3",
+      "hash": "d63540c1086bd49802b9143e05fd2b6ec67f1201c4cac9651f31451e401979f6"
+    },
+    "letter::ذ": {
+      "kind": "letter",
+      "text": "ذ",
+      "rel_path": "letters/u0630.mp3",
+      "hash": "da91c2fa9f610221f11a3eee8a627f79e5ee61915a52b7de567e90d0a2d8946e"
+    },
+    "letter::ر": {
+      "kind": "letter",
+      "text": "ر",
+      "rel_path": "letters/u0631.mp3",
+      "hash": "cda4990e173c7663f358c8a151b406133fd649de2fe4ebce57d9931b0867f9b2"
+    },
+    "letter::ز": {
+      "kind": "letter",
+      "text": "ز",
+      "rel_path": "letters/u0632.mp3",
+      "hash": "68810a12d8cb8c93aa49a9b876197a46144990d71b305a92b168f1fddfb6b9cc"
+    },
+    "letter::ژ": {
+      "kind": "letter",
+      "text": "ژ",
+      "rel_path": "letters/u0698.mp3",
+      "hash": "d7f510a498ac7d9acd08360c0073d6c4e41f3300baab4bba4b9dd7be5e6e4e9f"
+    },
+    "letter::س": {
+      "kind": "letter",
+      "text": "س",
+      "rel_path": "letters/u0633.mp3",
+      "hash": "2ec9920692bd2621d25cc5d726c849f696ffd5a6fcecb32c800f75620518ab1c"
+    },
+    "letter::ش": {
+      "kind": "letter",
+      "text": "ش",
+      "rel_path": "letters/u0634.mp3",
+      "hash": "06f7c8205d2ebd9f9836e2fe50ce39e6c23b090ce71303f598f1a148a27de45f"
+    },
+    "letter::ص": {
+      "kind": "letter",
+      "text": "ص",
+      "rel_path": "letters/u0635.mp3",
+      "hash": "4187b4885eaf9e7eca13a7e7c9c8c4a335bd193fc864c711df14b258c2f9193c"
+    },
+    "letter::ض": {
+      "kind": "letter",
+      "text": "ض",
+      "rel_path": "letters/u0636.mp3",
+      "hash": "f99cd1b02ff9a2cdaf70d6308093cc4d39dd9e0f15a36b31b40e942a0c5a4d8b"
+    },
+    "letter::ط": {
+      "kind": "letter",
+      "text": "ط",
+      "rel_path": "letters/u0637.mp3",
+      "hash": "f396af932db599064f22853ac6527ef42e7df0762609f17167878cf95149dcdd"
+    },
+    "letter::ظ": {
+      "kind": "letter",
+      "text": "ظ",
+      "rel_path": "letters/u0638.mp3",
+      "hash": "6c4ec20e549b9a4d354edbd0dd788216c35140b19fd07271c20e389aea32f291"
+    },
+    "letter::ع": {
+      "kind": "letter",
+      "text": "ع",
+      "rel_path": "letters/u0639.mp3",
+      "hash": "a8649a7e5638066f7ef2e49b3d817b437a55ea657fabe69ec25df14441c341d9"
+    },
+    "letter::غ": {
+      "kind": "letter",
+      "text": "غ",
+      "rel_path": "letters/u063a.mp3",
+      "hash": "88698c33291e1392798b53c1f2b5655967da484a32331e6a71c33f7ba421fe60"
+    },
+    "letter::ف": {
+      "kind": "letter",
+      "text": "ف",
+      "rel_path": "letters/u0641.mp3",
+      "hash": "9f5f46204a6b839a26282f21d94ee797bbaddb4ad276fc37d4e59ae60af5466d"
+    },
+    "letter::ق": {
+      "kind": "letter",
+      "text": "ق",
+      "rel_path": "letters/u0642.mp3",
+      "hash": "0ae131236a4625ffd828c4e6e7c9296df1d69a0d0c1fefc7b1d5a71da7a132f0"
+    },
+    "letter::ک": {
+      "kind": "letter",
+      "text": "ک",
+      "rel_path": "letters/u06a9.mp3",
+      "hash": "6ad49a9d6bf157ebaaf69582d2bb87e5a6a1015df5e2a0b9b09dda2a66917c2d"
+    },
+    "letter::گ": {
+      "kind": "letter",
+      "text": "گ",
+      "rel_path": "letters/u06af.mp3",
+      "hash": "0d0b83d3f7b4ca108d4b38a3b4357212d73d5e43da6bcb09564fbff278416787"
+    },
+    "letter::ل": {
+      "kind": "letter",
+      "text": "ل",
+      "rel_path": "letters/u0644.mp3",
+      "hash": "c8c72d10b0ebbd5d3134a4095f8218300db122f0bba526f1c4dafc5ae593c5e1"
+    },
+    "letter::م": {
+      "kind": "letter",
+      "text": "م",
+      "rel_path": "letters/u0645.mp3",
+      "hash": "eff3cc60dea06c1d2e8cb0300e44aeba30093b8d9e7a2d11e4684dd42fe88637"
+    },
+    "letter::ن": {
+      "kind": "letter",
+      "text": "ن",
+      "rel_path": "letters/u0646.mp3",
+      "hash": "176e5fb6e3c75f0bc70a8c3aae358444fbe8304a8c0cf0dcb8e13885b9dadc3b"
+    },
+    "letter::و": {
+      "kind": "letter",
+      "text": "و",
+      "rel_path": "letters/u0648.mp3",
+      "hash": "b26e62b754ae9e493b6f64398d5b62ada5317222a608ccb8c63e6fd20041e1a1"
+    },
+    "letter::ه": {
+      "kind": "letter",
+      "text": "ه",
+      "rel_path": "letters/u0647.mp3",
+      "hash": "e70fe8b7a233c6cfb4ab154d2648cd177b2203ceaf35a677e284d02e54905139"
+    },
+    "letter::ی": {
+      "kind": "letter",
+      "text": "ی",
+      "rel_path": "letters/u06cc.mp3",
+      "hash": "2c2acda16d8abffbe7ce47304bf7b98bed04203d4ea945f6bad38d4178755654"
+    }
+  }
+}

@@ -1,29 +1,35 @@
 import { useCallback, useRef } from "react";
 import { useGameStore } from "@/store/gameStore";
 import { getLetterAudioPath, getWordAudioPath, getAudioAssetStem } from "@/utils/audioPaths";
-import { getAudioUrl } from "@/services/audioStorage";
+
+const AUDIO_FILES_STORAGE_KEY = "admin-audio-files";
+
+const getCustomAudioUrl = (path?: string): string | null => {
+  if (!path) return null;
+  try {
+    const raw = localStorage.getItem(AUDIO_FILES_STORAGE_KEY);
+    if (!raw) return null;
+    const map = JSON.parse(raw) as Record<string, string>;
+    return map[path] || null;
+  } catch {
+    return null;
+  }
+};
 
 export const useAudio = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isMuted = useGameStore((s) => s.isMuted);
 
   const play = useCallback(
-    (src: string, supabasePath?: string) => {
+    (src: string, localPathKey?: string) => {
       if (isMuted) return;
       try {
         if (audioRef.current) {
           audioRef.current.pause();
         }
-        // Try Supabase Storage first, fall back to local assets
-        const resolvedSrc = supabasePath ? getAudioUrl(supabasePath) : src;
-        const audio = new Audio(resolvedSrc);
-        audio.onerror = () => {
-          // Fallback to local asset if Supabase file doesn't exist
-          if (supabasePath && resolvedSrc !== src) {
-            audioRef.current = new Audio(src);
-            audioRef.current.play().catch(() => {});
-          }
-        };
+        // Local-first: admin overrides in localStorage, else static asset in /public.
+        const custom = getCustomAudioUrl(localPathKey);
+        const audio = new Audio(custom || src);
         audioRef.current = audio;
         audio.play().catch(() => {});
       } catch {}
